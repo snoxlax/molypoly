@@ -2,26 +2,25 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { IconName } from "@/types/icon";
 
-import BaseballIcon from "@/assets/icons/Baseball.svg";
-import BasketballIcon from "@/assets/icons/Basketball.svg";
-import BoxingIcon from "@/assets/icons/Boxing.svg";
-import CricketIcon from "@/assets/icons/Cricket.svg";
-import EsportsIcon from "@/assets/icons/Esports.svg";
-import F1Icon from "@/assets/icons/F1.svg";
-import FootballIcon from "@/assets/icons/Football.svg";
-import GoldIcon from "@/assets/icons/Gold.svg";
-import LacrosseIcon from "@/assets/icons/Lacrosse.svg";
+import BaseballIcon from "@/assets/icons/sports/Baseball.svg";
+import BasketballIcon from "@/assets/icons/sports/Basketball.svg";
+import BoxingIcon from "@/assets/icons/sports/Boxing.svg";
+import CricketIcon from "@/assets/icons/sports/Cricket.svg";
+import EsportsIcon from "@/assets/icons/sports/Esports.svg";
+import F1Icon from "@/assets/icons/sports/F1.svg";
+import FootballIcon from "@/assets/icons/sports/Football.svg";
+import GoldIcon from "@/assets/icons/sports/Gold.svg";
+import LacrosseIcon from "@/assets/icons/sports/Lacrosse.svg";
 import LiveIcon from "@/assets/icons/Live.svg";
-import MLBIcon from "@/assets/icons/MLB.svg";
-import NHLIcon from "@/assets/icons/NHL.svg";
-import PBallIcon from "@/assets/icons/PBall.svg";
-import RugbyIcon from "@/assets/icons/Rugby.svg";
-import SoccerIcon from "@/assets/icons/Soccer.svg";
-import TennisIcon from "@/assets/icons/Tennis.svg";
-import TTennisIcon from "@/assets/icons/TTennis.svg";
-import UFCIcon from "@/assets/icons/UFC.svg";
+import MLBIcon from "@/assets/icons/sports/MLB.svg";
+import NHLIcon from "@/assets/icons/sports/NHL.svg";
+import PBallIcon from "@/assets/icons/sports/PBall.svg";
+import RugbyIcon from "@/assets/icons/sports/Rugby.svg";
+import SoccerIcon from "@/assets/icons/sports/Soccer.svg";
+import TennisIcon from "@/assets/icons/sports/Tennis.svg";
+import TTennisIcon from "@/assets/icons/sports/TTennis.svg";
+import UFCIcon from "@/assets/icons/sports/UFC.svg";
 import ArrowDownIcon from "@/assets/icons/arrow-down.svg";
-import BookmarkIcon from "@/assets/icons/bookmark.svg";
 import BrokenArrowIcon from "@/assets/icons/broken-arrow.svg";
 import DiscordIcon from "@/assets/icons/discord.svg";
 import ExplorerIcon from "@/assets/icons/explorer.svg";
@@ -55,7 +54,6 @@ const ICONS = {
   TTennis: TTennisIcon,
   UFC: UFCIcon,
   "arrow-down": ArrowDownIcon,
-  bookmark: BookmarkIcon,
   "broken-arrow": BrokenArrowIcon,
   discord: DiscordIcon,
   explorer: ExplorerIcon,
