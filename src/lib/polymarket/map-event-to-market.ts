@@ -2,7 +2,6 @@ import type { Market, MarketImageShape, MarketOutcome, MarketVariant } from "@/t
 import type { GammaEvent, GammaMarket } from "@/types/polymarket";
 
 const MAX_MULTI_CARD_OUTCOMES = 2;
-const DEFAULT_CATEGORY = "Politics";
 const UNTITLED_MARKET = "Untitled market";
 
 // --- Gamma API field parsing ---
@@ -59,6 +58,7 @@ type MarketBaseFields = Omit<Market, "outcomes" | "leadingPrice">;
 function buildMarketBase(
   event: GammaEvent,
   options: {
+    category: string;
     variant: MarketVariant;
     imageShape: MarketImageShape;
     questionFallback?: string;
@@ -68,7 +68,7 @@ function buildMarketBase(
     id: event.id,
     slug: event.slug ?? event.id,
     question: event.title ?? options.questionFallback ?? UNTITLED_MARKET,
-    category: DEFAULT_CATEGORY,
+    category: options.category,
     variant: options.variant,
     imageShape: options.imageShape,
     volume: event.volume ?? 0,
@@ -85,12 +85,17 @@ function buildCardOutcomes(markets: GammaMarket[]): MarketOutcome[] {
   }));
 }
 
-function buildBinaryMarket(event: GammaEvent, market: GammaMarket): Market {
+function buildBinaryMarket(
+  event: GammaEvent,
+  market: GammaMarket,
+  category: string,
+): Market {
   const yesPrice = readOutcomePrice(market, "Yes");
   const noPrice = readOutcomePrice(market, "No");
 
   return {
     ...buildMarketBase(event, {
+      category,
       variant: "binary",
       imageShape: "square",
       questionFallback: market.question ?? undefined,
@@ -103,9 +108,14 @@ function buildBinaryMarket(event: GammaEvent, market: GammaMarket): Market {
   };
 }
 
-function buildMultiMarket(event: GammaEvent, openMarkets: GammaMarket[]): Market {
+function buildMultiMarket(
+  event: GammaEvent,
+  openMarkets: GammaMarket[],
+  category: string,
+): Market {
   return {
     ...buildMarketBase(event, {
+      category,
       variant: "multi",
       imageShape: "circle",
     }),
@@ -115,19 +125,25 @@ function buildMultiMarket(event: GammaEvent, openMarkets: GammaMarket[]): Market
 
 // --- Public API ---
 
-export function mapEventToMarket(event: GammaEvent): Market | null {
+export function mapEventToMarket(
+  event: GammaEvent,
+  category = "Politics",
+): Market | null {
   const openMarkets = getRankedOpenMarkets(event);
 
   if (openMarkets.length === 0) return null;
   if (openMarkets.length === 1) {
-    return buildBinaryMarket(event, openMarkets[0]!);
+    return buildBinaryMarket(event, openMarkets[0]!, category);
   }
 
-  return buildMultiMarket(event, openMarkets);
+  return buildMultiMarket(event, openMarkets, category);
 }
 
-export function mapEventsToMarkets(events: GammaEvent[]): Market[] {
+export function mapEventsToMarkets(
+  events: GammaEvent[],
+  category = "Politics",
+): Market[] {
   return events
-    .map(mapEventToMarket)
+    .map((event) => mapEventToMarket(event, category))
     .filter((market): market is Market => market !== null);
 }

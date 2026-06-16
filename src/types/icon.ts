@@ -18,7 +18,6 @@ export const ICON_NAMES = [
   "TTennis",
   "UFC",
   "arrow-down",
-  "bookmark",
   "broken-arrow",
   "discord",
   "explorer",

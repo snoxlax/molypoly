@@ -1,13 +1,25 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import { Icon } from "@/components/ui/icon";
 import { WorldCupIcon } from "@/components/ui/world-cup-icon";
 import { CATEGORIES, isCategorySeparator } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-type CategoryNavProps = {
-  activeCategory: string;
-};
+function getActiveCategoryId(pathname: string): string {
+  if (pathname === "/sports") return "sports";
+  if (pathname === "/crypto") return "crypto";
+  if (pathname === "/") return "politics";
 
-export function CategoryNav({ activeCategory }: CategoryNavProps) {
+  return "politics";
+}
+
+export function CategoryNav() {
+  const pathname = usePathname();
+  const activeCategory = getActiveCategoryId(pathname);
+
   return (
     <div className="no-scrollbar flex h-12 w-full min-w-0 items-center overflow-x-auto">
       <ul className="flex min-w-max items-center gap-4">
@@ -21,27 +33,36 @@ export function CategoryNav({ activeCategory }: CategoryNavProps) {
           }
 
           const isActive = category.id === activeCategory;
+          const className = cn(
+            "flex items-center gap-1.5 text-sm font-semibold whitespace-nowrap transition-colors",
+            category.accent === "gold" && !isActive && "gold-accent-text",
+            isActive && "text-foreground",
+            !isActive &&
+              category.accent !== "gold" &&
+              "text-nav-muted hover:text-foreground",
+          );
 
           return (
             <li key={category.id}>
-              <button
-                type="button"
-                className={cn(
-                  "flex items-center gap-1.5 text-sm font-semibold whitespace-nowrap transition-colors",
-                  category.accent === "gold" && !isActive && "gold-accent-text",
-                  isActive && "text-foreground",
-                  !isActive &&
-                    category.accent !== "gold" &&
-                    "text-nav-muted hover:text-foreground",
-                )}
-              >
-                {category.icon === "wc" ? (
-                  <WorldCupIcon />
-                ) : category.icon ? (
-                  <Icon name={category.icon} size={16} className="opacity-90" />
-                ) : null}
-                {category.label}
-              </button>
+              {category.href ? (
+                <Link href={category.href} className={className}>
+                  {category.icon === "wc" ? (
+                    <WorldCupIcon />
+                  ) : category.icon ? (
+                    <Icon name={category.icon} size={16} className="opacity-90" />
+                  ) : null}
+                  {category.label}
+                </Link>
+              ) : (
+                <button type="button" className={className}>
+                  {category.icon === "wc" ? (
+                    <WorldCupIcon />
+                  ) : category.icon ? (
+                    <Icon name={category.icon} size={16} className="opacity-90" />
+                  ) : null}
+                  {category.label}
+                </button>
+              )}
             </li>
           );
         })}

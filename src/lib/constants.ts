@@ -1,4 +1,7 @@
 import type { IconName } from "@/types/icon";
+import type { TopicFilter } from "@/types/topic-sidebar";
+
+export type { TopicFilter } from "@/types/topic-sidebar";
 
 export const APP_NAME = "Polypoly";
 
@@ -7,6 +10,7 @@ export type CategoryLink = {
   label: string;
   icon?: IconName;
   accent?: "gold";
+  href?: string;
 };
 
 export type CategorySeparator = {
@@ -27,9 +31,9 @@ export const CATEGORIES: Category[] = [
   { id: "world-cup", label: "World Cup", icon: "wc", accent: "gold" },
   { id: "breaking", label: "Breaking" },
   { id: "breaking-separator", type: "separator" },
-  { id: "politics", label: "Politics" },
-  { id: "sports", label: "Sports" },
-  { id: "crypto", label: "Crypto" },
+  { id: "politics", label: "Politics", href: "/" },
+  { id: "sports", label: "Sports", href: "/sports" },
+  { id: "crypto", label: "Crypto", href: "/crypto" },
   { id: "esports", label: "Esports" },
   { id: "iran", label: "Iran" },
   { id: "finance", label: "Finance" },
@@ -42,12 +46,6 @@ export const CATEGORIES: Category[] = [
   { id: "elections", label: "Elections" },
   { id: "more", label: "More" },
 ];
-
-export type TopicFilter = {
-  id: string;
-  label: string;
-  count: string;
-};
 
 export const TOPIC_FILTERS: TopicFilter[] = [
   { id: "all", label: "All", count: "1.6K" },
@@ -71,5 +69,26 @@ export const TOPIC_FILTERS: TopicFilter[] = [
   { id: "south-korea", label: "South Korea", count: "18" },
   { id: "japan", label: "Japan", count: "12" },
   { id: "china", label: "China", count: "38" },
-  { id: "brazil", label: "Brazil", count: "34" },
+];
+
+export const CRYPTO_TOPIC_FILTERS: TopicFilter[] = [
+  { id: "all", label: "All", count: "308", lucideIcon: "grid" },
+  { id: "5-min", label: "5 Min", count: "7", lucideIcon: "gauge" },
+  { id: "15-min", label: "15 Min", count: "7", lucideIcon: "clock-dashed" },
+  { id: "1-hour", label: "1 Hour", count: "7", lucideIcon: "clock-undo" },
+  { id: "4-hours", label: "4 Hours", count: "7", lucideIcon: "clock" },
+  { id: "daily", label: "Daily", count: "11", lucideIcon: "calendar" },
+  { id: "weekly", label: "Weekly", count: "60", lucideIcon: "bar-chart" },
+  { id: "monthly", label: "Monthly", count: "24", lucideIcon: "trending" },
+  { id: "yearly", label: "Yearly", count: "23", lucideIcon: "calendar-year" },
+  { id: "pre-market", label: "Pre-Market", count: "144", lucideIcon: "chart" },
+  { id: "etf", label: "ETF", count: "2", lucideIcon: "chart" },
+  { id: "crypto-separator", type: "separator" },
+  { id: "bitcoin", label: "Bitcoin", count: "34", cryptoIcon: "bitcoin" },
+  { id: "ethereum", label: "Ethereum", count: "17", cryptoIcon: "ethereum" },
+  { id: "solana", label: "Solana", count: "13", cryptoIcon: "solana" },
+  { id: "xrp", label: "XRP", count: "11", cryptoIcon: "xrp" },
+  { id: "dogecoin", label: "Dogecoin", count: "6", cryptoIcon: "dogecoin" },
+  { id: "bnb", label: "BNB", count: "6", cryptoIcon: "bnb" },
+  { id: "microstrategy", label: "Microstrategy", count: "7", cryptoIcon: "microstrategy" },
 ];

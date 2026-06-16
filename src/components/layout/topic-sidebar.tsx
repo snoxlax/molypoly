@@ -1,30 +1,59 @@
+"use client";
+
 import { TOPIC_FILTERS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
+import {
+  isTopicFilterSeparator,
+  type TopicFilter,
+} from '@/types/topic-sidebar';
+
+import { TopicSidebarIcon } from './topic-sidebar-icon';
 
 type TopicSidebarProps = {
   activeTopic: string;
+  filters?: TopicFilter[];
 };
 
-export function TopicSidebar({ activeTopic }: TopicSidebarProps) {
+export function TopicSidebar({
+  activeTopic,
+  filters = TOPIC_FILTERS,
+}: TopicSidebarProps) {
   return (
     <aside className="hidden w-[200px] shrink-0 lg:block">
       <ul className="flex flex-col gap-0.5">
-        {TOPIC_FILTERS.map((topic) => {
+        {filters.map((topic) => {
+          if (isTopicFilterSeparator(topic)) {
+            return (
+              <li key={topic.id} aria-hidden className="py-2">
+                <span className="block h-px bg-border" />
+              </li>
+            );
+          }
+
           const isActive = topic.id === activeTopic;
+          const hasIcon = Boolean(topic.lucideIcon ?? topic.cryptoIcon);
 
           return (
             <li key={topic.id}>
               <button
                 type="button"
                 className={cn(
-                  'flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors',
+                  'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition-colors',
                   isActive
                     ? 'bg-sidebar-active font-medium text-foreground'
                     : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'
                 )}
               >
-                <span>{topic.label}</span>
-                <span className="text-xs text-muted-foreground">{topic.count}</span>
+                {hasIcon ? (
+                  <TopicSidebarIcon
+                    lucideIcon={topic.lucideIcon}
+                    cryptoIcon={topic.cryptoIcon}
+                  />
+                ) : null}
+                <span className="min-w-0 flex-1 truncate text-left">{topic.label}</span>
+                <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                  {topic.count}
+                </span>
               </button>
             </li>
           );

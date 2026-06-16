@@ -3,11 +3,7 @@ import { CategoryNav } from '@/components/layout/category-nav';
 import { Icon } from '@/components/ui/icon';
 import { APP_NAME } from '@/lib/constants';
 
-type SiteHeaderProps = {
-  activeCategory?: string;
-};
-
-export function SiteHeader({ activeCategory = 'politics' }: SiteHeaderProps) {
+export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 shrink-0 border-b border-border bg-background">
       <div className="site-container px-4 lg:px-6">
@@ -79,7 +75,7 @@ export function SiteHeader({ activeCategory = 'politics' }: SiteHeaderProps) {
           </div>
         </div>
 
-        <CategoryNav activeCategory={activeCategory} />
+        <CategoryNav />
       </div>
     </header>
   );

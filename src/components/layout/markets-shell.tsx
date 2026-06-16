@@ -1,5 +1,5 @@
 type MarketsShellProps = {
-  sidebar: React.ReactNode;
+  sidebar?: React.ReactNode;
   main: React.ReactNode;
 };
 

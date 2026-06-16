@@ -7,12 +7,12 @@ import "./globals.css";
 const inter = localFont({
   src: [
     {
-      path: "./fonts/poly-inter-variable-font.ttf",
+      path: "../assets/fonts/poly-inter-variable-font.ttf",
       weight: "100 900",
       style: "normal",
     },
     {
-      path: "./fonts/poly-inter.ttf",
+      path: "../assets/fonts/poly-inter.ttf",
       weight: "100 900",
       style: "italic",
     },

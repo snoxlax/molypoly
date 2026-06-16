@@ -2,18 +2,21 @@ import type { GammaEvent } from "@/types/polymarket";
 
 export const GAMMA_API_URL = "https://gamma-api.polymarket.com";
 
-type GetPoliticsEventsOptions = {
+export type MarketTagSlug = "politics" | "sports" | "crypto";
+
+type GetEventsByTagOptions = {
   limit?: number;
 };
 
-export async function getPoliticsEvents(
-  options: GetPoliticsEventsOptions = {},
+export async function getEventsByTag(
+  tagSlug: MarketTagSlug,
+  options: GetEventsByTagOptions = {},
 ): Promise<GammaEvent[]> {
   const { limit = 20 } = options;
 
   const params = new URLSearchParams({
     closed: "false",
-    tag_slug: "politics",
+    tag_slug: tagSlug,
     limit: String(limit),
     order: "volume24hr",
     ascending: "false",
@@ -25,10 +28,16 @@ export async function getPoliticsEvents(
 
   if (!response.ok) {
     console.error(
-      `Failed to fetch politics events: ${response.status} ${response.statusText}`,
+      `Failed to fetch ${tagSlug} events: ${response.status} ${response.statusText}`,
     );
     return [];
   }
 
   return (await response.json()) as GammaEvent[];
+}
+
+export async function getPoliticsEvents(
+  options: GetEventsByTagOptions = {},
+): Promise<GammaEvent[]> {
+  return getEventsByTag("politics", options);
 }
