@@ -36,9 +36,11 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full bg-background text-foreground">
+      <body className="flex h-full flex-col overflow-hidden bg-background text-foreground">
         <SiteHeader />
-        {children}
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          {children}
+        </div>
       </body>
     </html>
   );

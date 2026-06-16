@@ -9,7 +9,7 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ activeCategory = 'politics' }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background">
+    <header className="sticky top-0 z-50 shrink-0 border-b border-border bg-background">
       <div className="site-container px-4 lg:px-6">
         <div className="flex min-h-14 items-center gap-4 py-4">
           <Link

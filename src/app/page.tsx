@@ -1,7 +1,6 @@
-import { MarketsPageHeader } from "@/components/layout/markets-page-header";
 import { MarketsShell } from "@/components/layout/markets-shell";
 import { TopicSidebar } from "@/components/layout/topic-sidebar";
-import { MarketGrid } from "@/components/markets/market-grid";
+import { PoliticsPageContent } from "@/components/markets/politics-page-content";
 import type { Market } from "@/types/market";
 import politicsMarkets from "@/data/politics-markets.json";
 
@@ -11,12 +10,7 @@ export default function Home() {
   return (
     <MarketsShell
       sidebar={<TopicSidebar activeTopic="all" />}
-      main={
-        <>
-          <MarketsPageHeader title="Politics" />
-          <MarketGrid markets={POLITICS_MARKETS} title="Politics" />
-        </>
-      }
+      main={<PoliticsPageContent markets={POLITICS_MARKETS} />}
     />
   );
 }

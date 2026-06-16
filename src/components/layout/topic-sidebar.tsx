@@ -8,7 +8,7 @@ type TopicSidebarProps = {
 export function TopicSidebar({ activeTopic }: TopicSidebarProps) {
   return (
     <aside className="hidden w-[200px] shrink-0 lg:block">
-      <ul className="sticky top-30 flex flex-col gap-0.5">
+      <ul className="flex flex-col gap-0.5">
         {TOPIC_FILTERS.map((topic) => {
           const isActive = topic.id === activeTopic;
 
