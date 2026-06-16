@@ -1,16 +1,19 @@
-import { MarketsShell } from "@/components/layout/markets-shell";
-import { TopicSidebar } from "@/components/layout/topic-sidebar";
-import { PoliticsPageContent } from "@/components/markets/politics-page-content";
-import type { Market } from "@/types/market";
-import politicsMarkets from "@/data/politics-markets.json";
+import { MarketsShell } from '@/components/layout/markets-shell';
+import { TopicSidebar } from '@/components/layout/topic-sidebar';
+import { PoliticsPageContent } from '@/components/markets/politics-page-content';
+import { getPoliticsEvents } from '@/lib/polymarket/client';
+import { mapEventsToMarkets } from '@/lib/polymarket/map-event-to-market';
 
-const POLITICS_MARKETS = politicsMarkets as Market[];
+export const dynamic = 'force-dynamic';
 
-export default function Home() {
+export default async function Home() {
+  const events = await getPoliticsEvents();
+  const markets = mapEventsToMarkets(events);
+
   return (
     <MarketsShell
       sidebar={<TopicSidebar activeTopic="all" />}
-      main={<PoliticsPageContent markets={POLITICS_MARKETS} />}
+      main={<PoliticsPageContent markets={markets} />}
     />
   );
 }

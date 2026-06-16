@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { JotaiProvider } from "@/components/providers/jotai-provider";
 import { SiteHeader } from "@/components/layout/site-header";
 import "./globals.css";
 
@@ -37,10 +38,12 @@ export default function RootLayout({
       className={`${inter.variable} dark h-full antialiased`}
     >
       <body className="flex h-full flex-col overflow-hidden bg-background text-foreground">
-        <SiteHeader />
-        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-          {children}
-        </div>
+        <JotaiProvider>
+          <SiteHeader />
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+            {children}
+          </div>
+        </JotaiProvider>
       </body>
     </html>
   );

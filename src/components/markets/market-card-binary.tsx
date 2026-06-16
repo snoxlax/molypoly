@@ -16,8 +16,11 @@ export function MarketCardBinary({ market }: MarketCardBinaryProps) {
       headerAction={
         <ChanceArc percent={Math.round(leadingPrice * 100)} />
       }
+      contentClassName="flex-1"
     >
-      <YesNoButtons variant="blocks" />
+      <div className="mt-auto">
+        <YesNoButtons variant="blocks" />
+      </div>
     </MarketCardShell>
   );
 }

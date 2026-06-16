@@ -6,24 +6,27 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { MarketImage } from '@/components/ui/market-image';
+import { cn } from '@/lib/utils';
 import type { Market } from '@/types/market';
 import { MarketCardFooter } from './market-card-footer';
 
 type MarketCardShellProps = {
   market: Market;
   headerAction?: React.ReactNode;
+  contentClassName?: string;
   children: React.ReactNode;
 };
 
 export function MarketCardShell({
   market,
   headerAction,
+  contentClassName,
   children,
 }: MarketCardShellProps) {
   return (
     <Card
       size="sm"
-      className="relative min-h-[181px] justify-between shadow-md shadow-black/5"
+      className="relative h-full min-h-[181px] flex flex-col shadow-md shadow-black/5"
     >
       <CardHeader className="flex items-start gap-3">
         <MarketImage
@@ -39,9 +42,15 @@ export function MarketCardShell({
         ) : null}
       </CardHeader>
 
-      <CardContent className="flex flex-col justify-end gap-2">
-        {children}
+      <CardContent
+        className={cn(
+          "flex flex-1 flex-col gap-2",
+          contentClassName,
+        )}
+      >
+        <div className="flex flex-col gap-2">{children}</div>
         <MarketCardFooter
+          className="mt-auto"
           volume={market.volume}
           frequency={market.frequency}
         />
