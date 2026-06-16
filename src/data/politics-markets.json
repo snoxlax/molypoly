@@ -1,0 +1,203 @@
+[
+  {
+    "id": "1",
+    "slug": "balance-of-power-2026",
+    "question": "Balance of Power: 2026 Midterms",
+    "category": "Politics",
+    "variant": "multi",
+    "imageShape": "square",
+    "volume": 8000000,
+    "frequency": "Monthly",
+    "outcomes": [
+      {
+        "id": "dem-sweep",
+        "label": "Democrats Sweep",
+        "price": 0.43
+      },
+      {
+        "id": "rep-sweep",
+        "label": "Republicans Sweep",
+        "price": 0.4
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "slug": "fed-decision-june",
+    "question": "Fed Decision in June?",
+    "category": "Politics",
+    "variant": "multi",
+    "imageShape": "circle",
+    "volume": 346000000,
+    "frequency": "Monthly",
+    "outcomes": [
+      {
+        "id": "no-change",
+        "label": "No change",
+        "price": 0.99
+      },
+      {
+        "id": "25bps",
+        "label": "25 bps decrease",
+        "price": 0.005
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "slug": "dem-nominee-2028",
+    "question": "Democratic Presidential Nominee 2028",
+    "category": "Politics",
+    "variant": "multi",
+    "imageShape": "circle",
+    "volume": 52000000,
+    "frequency": null,
+    "outcomes": [
+      {
+        "id": "newsom",
+        "label": "Gavin Newsom",
+        "price": 0.25
+      },
+      {
+        "id": "aoc",
+        "label": "Alexandria Ocasio-Cortez",
+        "price": 0.09
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "slug": "elon-tweets-june",
+    "question": "Elon Musk # tweets June 9 - June 16, 2026?",
+    "category": "Politics",
+    "variant": "multi",
+    "imageShape": "circle",
+    "volume": 12000000,
+    "frequency": "Daily",
+    "outcomes": [
+      {
+        "id": "180-199",
+        "label": "180-199",
+        "price": 0.54
+      },
+      {
+        "id": "200-219",
+        "label": "200-219",
+        "price": 0.4
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "slug": "us-iran-peace",
+    "question": "US x Iran permanent peace deal by...?",
+    "category": "Politics",
+    "variant": "multi",
+    "imageShape": "square",
+    "volume": 24000000,
+    "frequency": null,
+    "outcomes": [
+      {
+        "id": "oct-31",
+        "label": "October 31",
+        "price": 0.96
+      },
+      {
+        "id": "dec-31",
+        "label": "December 31",
+        "price": 0.04
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "slug": "iranian-regime-fall",
+    "question": "Will the Iranian regime fall by June 30?",
+    "category": "Politics",
+    "variant": "binary",
+    "imageShape": "square",
+    "volume": 18000000,
+    "frequency": null,
+    "leadingPrice": 0.01,
+    "outcomes": [
+      {
+        "id": "yes",
+        "label": "Yes",
+        "price": 0.04
+      },
+      {
+        "id": "no",
+        "label": "No",
+        "price": 0.96
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "slug": "maduro-leaves",
+    "question": "Maduro leaves Venezuela by June 30?",
+    "category": "Politics",
+    "variant": "binary",
+    "imageShape": "square",
+    "volume": 6000000,
+    "frequency": null,
+    "leadingPrice": 0.01,
+    "outcomes": [
+      {
+        "id": "yes",
+        "label": "Yes",
+        "price": 0.01
+      },
+      {
+        "id": "no",
+        "label": "No",
+        "price": 0.99
+      }
+    ]
+  },
+  {
+    "id": "8",
+    "slug": "trump-approval-june",
+    "question": "Trump approval rating above 50% on June 30?",
+    "category": "Politics",
+    "variant": "binary",
+    "imageShape": "circle",
+    "volume": 3200000,
+    "frequency": "Daily",
+    "leadingPrice": 0.32,
+    "outcomes": [
+      {
+        "id": "yes",
+        "label": "Yes",
+        "price": 0.32
+      },
+      {
+        "id": "no",
+        "label": "No",
+        "price": 0.68
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "slug": "uk-election-2029",
+    "question": "Labour wins next UK general election?",
+    "category": "Politics",
+    "variant": "multi",
+    "imageShape": "square",
+    "volume": 9500000,
+    "frequency": null,
+    "outcomes": [
+      {
+        "id": "yes",
+        "label": "Yes",
+        "price": 0.72
+      },
+      {
+        "id": "no",
+        "label": "No",
+        "price": 0.28
+      }
+    ]
+  }
+]

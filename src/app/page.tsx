@@ -3,7 +3,7 @@ import { MarketsShell } from "@/components/layout/markets-shell";
 import { TopicSidebar } from "@/components/layout/topic-sidebar";
 import { MarketGrid } from "@/components/markets/market-grid";
 import type { Market } from "@/types/market";
-import politicsMarkets from "../../coverage/politics-markets.json";
+import politicsMarkets from "@/data/politics-markets.json";
 
 const POLITICS_MARKETS = politicsMarkets as Market[];
 
