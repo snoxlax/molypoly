@@ -7,6 +7,9 @@ export type GammaMarket = {
   outcomePrices: string | null;
   closed: boolean | null;
   active: boolean | null;
+  image: string | null;
+  icon: string | null;
+  volume24hr?: number | null;
 };
 
 export type GammaEvent = {

@@ -22,4 +22,6 @@ export type Market = {
   outcomes: MarketOutcome[];
   imageUrl?: string;
   leadingPrice?: number;
+  assetLabel?: string;
+  isLive?: boolean;
 };

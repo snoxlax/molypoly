@@ -41,3 +41,9 @@ export async function getPoliticsEvents(
 ): Promise<GammaEvent[]> {
   return getEventsByTag("politics", options);
 }
+
+export async function getCryptoEvents(
+  options: GetEventsByTagOptions = {},
+): Promise<GammaEvent[]> {
+  return getEventsByTag("crypto", options);
+}

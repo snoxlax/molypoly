@@ -53,6 +53,8 @@ export function MarketCardShell({
           className="mt-auto"
           volume={market.volume}
           frequency={market.frequency}
+          assetLabel={market.assetLabel}
+          isLive={market.isLive}
         />
       </CardContent>
     </Card>

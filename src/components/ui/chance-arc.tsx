@@ -3,6 +3,7 @@ import { cn, formatProbability } from '@/lib/utils';
 type ChanceArcProps = {
   percent: number;
   className?: string;
+  sublabel?: string;
 };
 
 const RADIUS = 29;
@@ -40,7 +41,7 @@ function getChanceArcColor(percent: number): string {
   return AMBER;
 }
 
-export function ChanceArc({ percent, className }: ChanceArcProps) {
+export function ChanceArc({ percent, className, sublabel = "chance" }: ChanceArcProps) {
   const clampedPercent = Math.min(100, Math.max(0, percent));
   const progress = clampedPercent / 100;
 
@@ -78,7 +79,7 @@ export function ChanceArc({ percent, className }: ChanceArcProps) {
           {formatProbability(clampedPercent / 100)}
         </p>
         <p className="text-xs leading-none font-semibold text-muted-foreground">
-          chance
+          {sublabel}
         </p>
       </div>
     </div>

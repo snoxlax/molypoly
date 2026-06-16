@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import type { MarketImageShape } from "@/types/market";
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import type { MarketImageShape } from '@/types/market';
 
 type MarketImageProps = {
   shape: MarketImageShape;
@@ -12,11 +12,10 @@ type MarketImageProps = {
 export function MarketImage({
   shape,
   imageUrl,
-  alt = "",
+  alt = '',
   className,
 }: MarketImageProps) {
-  const shapeClass =
-    shape === "circle" ? "rounded-full" : "rounded-md";
+  const shapeClass = shape === 'circle' ? 'rounded-full' : 'rounded-md';
 
   if (imageUrl) {
     return (
@@ -25,18 +24,14 @@ export function MarketImage({
         alt={alt}
         width={40}
         height={40}
-        className={cn("size-10 shrink-0 object-cover", shapeClass, className)}
+        className={cn('size-10 shrink-0 object-cover', shapeClass, className)}
       />
     );
   }
 
   return (
     <div
-      className={cn(
-        "size-10 shrink-0 bg-zinc-700",
-        shapeClass,
-        className,
-      )}
+      className={cn('size-10 shrink-0 bg-zinc-700', shapeClass, className)}
       aria-hidden
     />
   );

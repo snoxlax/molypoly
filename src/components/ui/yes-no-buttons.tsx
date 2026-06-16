@@ -4,12 +4,16 @@ type YesNoButtonsProps = {
   variant: 'pills' | 'blocks';
   price?: number;
   className?: string;
+  yesLabel?: string;
+  noLabel?: string;
 };
 
 export function YesNoButtons({
   variant,
   price = 0,
   className,
+  yesLabel = 'Yes',
+  noLabel = 'No',
 }: YesNoButtonsProps) {
   const yesButton =
     variant === 'pills' ? (
@@ -17,14 +21,14 @@ export function YesNoButtons({
         type="button"
         className="group outcome-pill outcome-yes"
       >
-        <span className="group-hover:hidden">Yes</span>
+        <span className="group-hover:hidden">{yesLabel}</span>
         <span className="hidden group-hover:inline">
           {formatProbability(price)}
         </span>
       </button>
     ) : (
       <button type="button" className="yes-block">
-        Yes
+        {yesLabel}
       </button>
     );
 
@@ -34,14 +38,14 @@ export function YesNoButtons({
         type="button"
         className="group outcome-pill outcome-no"
       >
-        <span className="group-hover:hidden">No</span>
+        <span className="group-hover:hidden">{noLabel}</span>
         <span className="hidden group-hover:inline">
           {formatProbability(1 - price)}
         </span>
       </button>
     ) : (
       <button type="button" className="no-block">
-        No
+        {noLabel}
       </button>
     );
 

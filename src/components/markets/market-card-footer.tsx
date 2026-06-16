@@ -7,12 +7,16 @@ import type { MarketFrequency } from '@/types/market';
 type MarketCardFooterProps = {
   volume: number;
   frequency: MarketFrequency;
+  assetLabel?: string;
+  isLive?: boolean;
   className?: string;
 };
 
 export function MarketCardFooter({
   volume,
   frequency,
+  assetLabel,
+  isLive,
   className,
 }: MarketCardFooterProps) {
   return (
@@ -23,6 +27,13 @@ export function MarketCardFooter({
       )}
     >
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        {isLive ? (
+          <span className="flex items-center gap-1.5 font-medium text-foreground">
+            <span className="size-1.5 rounded-full bg-red-500" aria-hidden />
+            LIVE
+          </span>
+        ) : null}
+        {assetLabel ? <span>{assetLabel}</span> : null}
         <span>{formatVolume(volume)}</span>
         {frequency ? <span>{frequency}</span> : null}
       </div>
