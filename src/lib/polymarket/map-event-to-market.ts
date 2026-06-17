@@ -123,7 +123,7 @@ function buildMultiMarket(
     ...buildMarketBase(event, {
       category,
       variant: "multi",
-      imageShape: "circle",
+      imageShape: "square",
     }),
     outcomes: buildCardOutcomes(openMarkets),
   };
