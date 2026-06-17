@@ -27,11 +27,11 @@ export function isCategorySeparator(
 }
 
 export const CATEGORIES: Category[] = [
-  { id: "trending", label: "Trending", icon: "broken-arrow" },
+  { id: "trending", label: "Trending", icon: "broken-arrow", href: "/" },
   { id: "world-cup", label: "World Cup", icon: "wc", accent: "gold" },
   { id: "breaking", label: "Breaking" },
   { id: "breaking-separator", type: "separator" },
-  { id: "politics", label: "Politics", href: "/" },
+  { id: "politics", label: "Politics", href: "/politics" },
   { id: "sports", label: "Sports", href: "/sports" },
   { id: "crypto", label: "Crypto", href: "/crypto" },
   { id: "esports", label: "Esports" },
@@ -45,6 +45,23 @@ export const CATEGORIES: Category[] = [
   { id: "mentions", label: "Mentions" },
   { id: "elections", label: "Elections" },
   { id: "more", label: "More" },
+];
+
+export const TRENDING_TOPIC_FILTERS: TopicFilter[] = [
+  { id: "all", label: "All", count: "2.1K", lucideIcon: "grid" },
+  { id: "breaking", label: "Breaking", count: "48", lucideIcon: "trending" },
+  { id: "new", label: "New", count: "126", lucideIcon: "gauge" },
+  { id: "politics", label: "Politics", count: "1.6K" },
+  { id: "sports", label: "Sports", count: "308" },
+  { id: "crypto", label: "Crypto", count: "412" },
+  { id: "trending-separator", type: "separator" },
+  { id: "elections", label: "Elections", count: "312" },
+  { id: "geopolitics", label: "Geopolitics", count: "89" },
+  { id: "finance", label: "Finance", count: "156" },
+  { id: "tech", label: "Tech", count: "74" },
+  { id: "culture", label: "Culture", count: "52" },
+  { id: "economy", label: "Economy", count: "98" },
+  { id: "world", label: "World", count: "167" },
 ];
 
 export const TOPIC_FILTERS: TopicFilter[] = [

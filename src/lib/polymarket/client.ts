@@ -13,6 +13,8 @@ const EVENTS_LIMIT_BY_TAG: Record<MarketTagSlug, number> = {
   crypto: 50,
 };
 
+const TRENDING_EVENTS_LIMIT = 30;
+
 async function fetchEventsChunk(
   tagSlug: MarketTagSlug,
   limit: number,
@@ -69,6 +71,28 @@ export async function getEventsByTag(
   }
 
   return merged;
+}
+
+export async function getTrendingEvents(): Promise<GammaEvent[]> {
+  const params = new URLSearchParams({
+    closed: "false",
+    limit: String(TRENDING_EVENTS_LIMIT),
+    order: "volume24hr",
+    ascending: "false",
+  });
+
+  const response = await fetch(`${GAMMA_API_URL}/events?${params}`, {
+    next: { revalidate: GAMMA_REVALIDATE_SECONDS },
+  });
+
+  if (!response.ok) {
+    console.error(
+      `Failed to fetch trending events: ${response.status} ${response.statusText}`,
+    );
+    return [];
+  }
+
+  return (await response.json()) as GammaEvent[];
 }
 
 export async function getEventBySlug(slug: string): Promise<GammaEvent | null> {

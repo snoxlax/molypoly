@@ -1,11 +1,17 @@
 import { MarketsShellLoading } from '@/components/layout/MarketsShellLoading';
 import { TopicSidebar } from '@/components/layout/TopicSidebar';
+import { TRENDING_TOPIC_FILTERS } from '@/lib/constants';
 
-export default function Loading() {
+export default function TrendingLoading() {
   return (
     <MarketsShellLoading
-      title="Politics"
-      sidebar={<TopicSidebar activeTopic="all" />}
+      title="Trending"
+      sidebar={
+        <TopicSidebar
+          activeTopic="all"
+          filters={TRENDING_TOPIC_FILTERS}
+        />
+      }
     />
   );
 }

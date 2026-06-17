@@ -9,11 +9,12 @@ import { CATEGORIES, isCategorySeparator } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 function getActiveCategoryId(pathname: string): string {
+  if (pathname === "/") return "trending";
+  if (pathname === "/politics") return "politics";
   if (pathname === "/sports") return "sports";
   if (pathname === "/crypto") return "crypto";
-  if (pathname === "/" || pathname.startsWith("/event/")) return "politics";
 
-  return "politics";
+  return "trending";
 }
 
 export function CategoryNav() {
@@ -26,7 +27,9 @@ export function CategoryNav() {
       ? "crypto"
       : categoryParam === "Sports"
         ? "sports"
-        : "politics"
+        : categoryParam === "Politics"
+          ? "politics"
+          : "trending"
     : getActiveCategoryId(pathname);
 
   return (
