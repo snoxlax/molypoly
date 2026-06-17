@@ -1,6 +1,6 @@
-# Polypoly
+# MolyPoly
 
-Polypoly is a focused Next.js implementation of the core Polymarket browsing experience. It uses the Polymarket Gamma API for open events, mirrors the main market grid and event detail flows, and demonstrates live probability updates with Jotai-powered simulated prices on event detail pages.
+MolyPoly is a focused Next.js implementation of the core Polymarket browsing experience. It uses the Polymarket Gamma API for open events, mirrors the main market grid and event detail flows, and demonstrates live probability updates with Jotai-powered simulated prices on event detail pages.
 
 ## Tech Stack
 
@@ -8,7 +8,7 @@ Polypoly is a focused Next.js implementation of the core Polymarket browsing exp
 - React 19
 - TypeScript
 - Jotai for client-side price atoms
-- Tailwind CSS and shadcn/radix primitives
+- Tailwind CSS 4 and shadcn/Radix UI primitives
 - Polymarket Gamma API: `https://gamma-api.polymarket.com`
 
 ## Getting Started
@@ -44,9 +44,9 @@ Trending, Politics, Sports, and Crypto are implemented. Other category labels in
 ## Feature Coverage
 
 - Trending market grid at `/` with cross-category topic sidebar UI
-- Politics market grid at `/politics` with politics topic sidebar UI
+- Politics market grid at `/politics` with politics topic sidebar UI and promo card
 - Sports market grid at `/sports`
-- Crypto market grid at `/crypto` with crypto-specific topic sidebar UI and promo card
+- Crypto market grid at `/crypto` with crypto-specific topic sidebar UI and an API-derived short-interval BTC promo card when available
 - Top navigation links for Trending, Politics, Sports, and Crypto
 - Event detail pages at `/event/[slug]` with title, volume, mapped outcomes, and trade-style buttons
 - Loading skeletons for list routes and event detail routes
@@ -54,7 +54,7 @@ Trending, Politics, Sports, and Crypto are implemented. Other category labels in
 
 ## Architecture
 
-Server routes fetch open Polymarket events from the Gamma API and map them into small UI-facing market types before rendering. List pages pass fetched market data as props; nothing is stored in a global server cache beyond Next.js fetch caching.
+Server route components fetch open Polymarket events from the Gamma API and map them into small UI-facing market types before rendering. List pages pass fetched market data as props; there is no custom API route, database, or global server cache beyond Next.js fetch caching.
 
 Client-side Jotai state uses two plain atoms in `src/store/markets.ts`:
 
@@ -72,9 +72,9 @@ Events are fetched by tag (`politics`, `sports`, `crypto`) with per-tag limits, 
 - Sports: 20 events
 - Crypto: 50 events
 
-When a tag needs more than 10 events, the client splits the request into multiple parallel calls (`limit=10` per chunk, offset pagination) and merges the results with deduplication.
+When a tag needs more than 10 events, the fetch helper splits the request into multiple parallel calls (`limit=10` per chunk, offset pagination) and merges the results with deduplication.
 
-Fetches use `next.revalidate: 60` (60-second ISR). Next.js only caches individual fetch responses under its 2MB limit — larger chunks (notably politics/sports offset pages) may skip the data cache and still return data at runtime. You may see a build-time warning about this; it is non-fatal.
+Fetches use `next.revalidate: 60` (60-second ISR). Failed list fetches are logged and return an empty array; failed event fetches return `null` and render the event not-found page. Next.js only caches individual fetch responses under its 2MB limit — larger chunks (notably politics/sports offset pages) may skip the data cache and still return data at runtime. You may see a build-time warning about this; it is non-fatal.
 
 ## Realtime Approach
 
@@ -92,13 +92,13 @@ Market list pages show server-provided prices only.
 - Dynamic event pages use async `params`
 - Route-level `loading.tsx` files provide streaming skeleton states
 - Gamma API fetches use short `revalidate` caching; client simulation handles live movement on event detail pages
-- `not-found.tsx` handles missing or unavailable events
+- `app/event/[slug]/not-found.tsx` handles missing or unavailable events
 
 ## Limitations
 
 ### Scope
 
-- **Three categories only** — Politics, Sports, and Crypto. No other Polymarket categories are wired up.
+- **Trending plus three categories only** — Trending, Politics, Sports, and Crypto are wired up. No other Polymarket categories are implemented as routes.
 - **No real trading** — order book, authentication, wallet, and portfolio state are out of scope.
 - **No WebSockets** — prices are simulated client-side, not streamed from Polymarket.
 
@@ -112,9 +112,11 @@ Market list pages show server-provided prices only.
 - Event and category data quality depends on the public Gamma API response shape.
 - Fetch limits cap how many events appear per page (30 trending, 20 politics, 20 sports, 50 crypto).
 - Large API responses may not be fully cached by Next.js; chunked fetches reduce payload size but some chunks can still exceed the 2MB cache limit.
+- **No dedicated API error UI** — if the Gamma API fails, times out, or returns an unexpected response, list pages do not show an explicit error message. They may render an empty grid, while event detail failures fall back to the event not-found page.
 
 ### UI
 
 - Search and auth header controls are visual only.
 - Event outcomes use live percentages and trade buttons, not separate probability bars.
+- Unmatched pages rely on Next.js not-found behavior; only the event not-found state is customized in this codebase.
 - A few small visual bugs remain — layout, spacing, or polish differences from the reference Polymarket UI.

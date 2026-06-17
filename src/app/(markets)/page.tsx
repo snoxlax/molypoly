@@ -22,7 +22,6 @@ export default async function TrendingPage() {
         <MarketsPageContent
           title={TRENDING_CATEGORY}
           markets={markets}
-          showPromo
         />
       }
     />
