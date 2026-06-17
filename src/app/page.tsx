@@ -5,7 +5,7 @@ import { getEventsByTag } from '@/lib/polymarket/client';
 import { mapEventsToMarkets } from '@/lib/polymarket/map-event-to-market';
 
 export default async function Home() {
-  const events = await getEventsByTag('politics', { limit: 20 });
+  const events = await getEventsByTag('politics');
   const markets = mapEventsToMarkets(events, 'Politics');
 
   return (

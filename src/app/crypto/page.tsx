@@ -10,7 +10,7 @@ import {
 } from '@/lib/polymarket/map-event-to-market';
 
 export default async function CryptoPage() {
-  const events = await getEventsByTag('crypto', { limit: 50 });
+  const events = await getEventsByTag('crypto');
   const promoMarket = getCryptoPromoMarket(events);
   const markets = mapEventsToCryptoMarkets(events);
 

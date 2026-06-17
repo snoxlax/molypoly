@@ -5,11 +5,13 @@ const GAMMA_REVALIDATE_SECONDS = 60;
 
 export type MarketTagSlug = "politics" | "sports" | "crypto";
 
-type GetEventsByTagOptions = {
-  limit?: number;
-};
-
 const EVENTS_CHUNK_SIZE = 10;
+
+const EVENTS_LIMIT_BY_TAG: Record<MarketTagSlug, number> = {
+  politics: 20,
+  sports: 20,
+  crypto: 50,
+};
 
 async function fetchEventsChunk(
   tagSlug: MarketTagSlug,
@@ -41,14 +43,8 @@ async function fetchEventsChunk(
 
 export async function getEventsByTag(
   tagSlug: MarketTagSlug,
-  options: GetEventsByTagOptions = {},
 ): Promise<GammaEvent[]> {
-  const { limit = 10 } = options;
-  const safeLimit = Math.max(0, limit);
-
-  if (safeLimit === 0) {
-    return [];
-  }
+  const safeLimit = EVENTS_LIMIT_BY_TAG[tagSlug];
 
   if (safeLimit <= EVENTS_CHUNK_SIZE) {
     return fetchEventsChunk(tagSlug, safeLimit, 0);
