@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import { Icon } from "@/components/ui/icon";
 import { WorldCupIcon } from "@/components/ui/world-cup-icon";
@@ -11,14 +11,23 @@ import { cn } from "@/lib/utils";
 function getActiveCategoryId(pathname: string): string {
   if (pathname === "/sports") return "sports";
   if (pathname === "/crypto") return "crypto";
-  if (pathname === "/") return "politics";
+  if (pathname === "/" || pathname.startsWith("/event/")) return "politics";
 
   return "politics";
 }
 
 export function CategoryNav() {
   const pathname = usePathname();
-  const activeCategory = getActiveCategoryId(pathname);
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+
+  const activeCategory = pathname.startsWith("/event/")
+    ? categoryParam === "Crypto"
+      ? "crypto"
+      : categoryParam === "Sports"
+        ? "sports"
+        : "politics"
+    : getActiveCategoryId(pathname);
 
   return (
     <div className="no-scrollbar flex h-12 w-full min-w-0 items-center overflow-x-auto">

@@ -1,0 +1,23 @@
+import { notFound } from "next/navigation";
+
+import { EventDetailContent } from "@/components/events/event-detail-content";
+import { getEventBySlug } from "@/lib/polymarket/client";
+import { mapEventToDetail } from "@/lib/polymarket/map-event-to-market";
+
+type EventPageProps = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ category?: string }>;
+};
+
+export default async function EventPage({ params, searchParams }: EventPageProps) {
+  const { slug } = await params;
+  const { category } = await searchParams;
+  const event = await getEventBySlug(slug);
+  const detail = event ? mapEventToDetail(event, category) : null;
+
+  if (!detail) {
+    notFound();
+  }
+
+  return <EventDetailContent detail={detail} />;
+}

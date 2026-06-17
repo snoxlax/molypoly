@@ -143,6 +143,50 @@
     @apply flex flex-1 items-center justify-center rounded-lg py-2.5 text-sm font-medium transition-all duration-400 ease-out;
   }
 
+  .event-outcome-row {
+    @apply flex flex-wrap items-center gap-4 border-b border-border px-4 py-4 transition-colors last:border-b-0 sm:flex-nowrap sm:gap-6;
+  }
+
+  .event-outcome-row.is-rising {
+    @apply bg-yes/5;
+  }
+
+  .event-outcome-row.is-falling {
+    @apply bg-no/5;
+  }
+
+  .event-outcome-percent {
+    @apply text-right text-[28px] font-semibold leading-none tabular-nums text-foreground transition-colors duration-300;
+  }
+
+  .event-outcome-actions {
+    @apply flex shrink-0 items-center gap-2;
+  }
+
+  .event-outcome-price {
+    @apply ml-auto flex w-32 shrink-0 items-center justify-end gap-2 sm:ml-0;
+  }
+
+  .event-outcome-change {
+    @apply w-9 text-right text-xs font-semibold tabular-nums transition-opacity;
+  }
+
+  .event-ticket {
+    @apply h-fit rounded-xl border border-border bg-card p-4 shadow-xl shadow-black/10 lg:sticky lg:top-32;
+  }
+
+  .ticket-choice {
+    @apply inline-flex h-11 items-center justify-center rounded-md text-sm font-semibold transition;
+  }
+
+  .ticket-choice-yes {
+    @apply bg-yes text-white hover:bg-yes/90;
+  }
+
+  .ticket-choice-no {
+    @apply bg-secondary text-muted-foreground hover:bg-secondary/80;
+  }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;

@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
+
 import { CategoryNav } from '@/components/layout/category-nav';
 import { Icon } from '@/components/ui/icon';
 import { APP_NAME } from '@/lib/constants';
@@ -75,7 +77,9 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <CategoryNav />
+        <Suspense fallback={null}>
+          <CategoryNav />
+        </Suspense>
       </div>
     </header>
   );
