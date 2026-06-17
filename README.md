@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Molypoly
+
+Molypoly is a focused Next.js implementation of the core Polymarket browsing experience for the PLAEE frontend assignment. It uses the Polymarket Gamma API for open events, mirrors the main market grid and event detail flows, and demonstrates live probability updates with Jotai-powered simulated prices.
+
+## Tech Stack
+
+- Next.js App Router
+- React 19
+- TypeScript
+- Jotai for client-side price atoms
+- Tailwind CSS and shadcn/radix primitives
+- Polymarket Gamma API: `https://gamma-api.polymarket.com`
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Useful checks:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+## Feature Coverage
 
-To learn more about Next.js, take a look at the following resources:
+- Main politics market grid at `/`
+- Dedicated bonus category pages at `/crypto` and `/sports`
+- Working top navigation for Politics, Sports, and Crypto
+- Event detail pages at `/event/[slug]`
+- Event title, volume, all mapped outcomes, live prices, and trade-style buttons
+- Loading skeletons for list routes and event detail routes
+- Event-page simulated live price movement without page refresh
+- Subtle rising/falling highlight when simulated prices change
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architecture
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Server routes fetch open Polymarket events from the Gamma API and map them into small UI-facing market types before rendering. The list pages keep that fetched market data as props instead of storing static lists globally.
 
-## Deploy on Vercel
+Client-side Jotai state is reserved for live event prices. Each outcome has its own atom through `jotai-family`, so a simulated tick updates only the subscribed outcome row instead of forcing the whole page or grid to re-render.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Realtime Approach
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project intentionally does not use WebSockets. The assignment allows a convincing simulation, so live updates run only on event detail pages. On mount, the event outcomes seed Jotai price atoms from the server-provided prices. Every 2.5 seconds, one outcome moves by a small bounded delta; paired Yes/No or Up/Down outcomes are updated inversely.
+
+Market list pages show server-provided prices. This keeps the realtime demo clear and scoped to the event page, where the live percentages, trade buttons, and price-change highlights make the update behavior visible.
+
+## Next.js Usage
+
+- App Router route segments are used for `/`, `/crypto`, `/sports`, and `/event/[slug]`.
+- Dynamic event pages use async `params` and `searchParams`.
+- Route-level `loading.tsx` files provide streaming skeleton states.
+- Gamma API fetches use short `next.revalidate` caching so the server data is reasonably fresh while the client simulation handles live movement.
+- `not-found.tsx` handles missing or unavailable events.
+
+## Limitations
+
+- No real trading, order book, authentication, or portfolio state.
+- No WebSocket connection to Polymarket live feeds.
+- Event outcomes use live percentages and trade buttons, not separate probability bars.
+- Topic sidebar counts are presentational and do not filter markets.
+- Search and auth header controls are visual only.
+- Event and category data quality depends on the public Gamma API response shape.

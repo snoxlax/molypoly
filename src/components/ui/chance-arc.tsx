@@ -18,12 +18,16 @@ const SVG_HEIGHT =
 const AMBER = '#f59e0b';
 const TRACK_COLOR = 'rgb(113 113 122 / 0.2)';
 
+function roundCoord(value: number): number {
+  return Number(value.toFixed(4));
+}
+
 function getPointOnArc(t: number) {
   const angle = ARC_START + t * ARC_SPAN;
 
   return {
-    x: RADIUS * Math.cos(angle),
-    y: RADIUS * Math.sin(angle),
+    x: roundCoord(RADIUS * Math.cos(angle)),
+    y: roundCoord(RADIUS * Math.sin(angle)),
   };
 }
 
