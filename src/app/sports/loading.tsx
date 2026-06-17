@@ -1,6 +1,5 @@
-import { MarketsShell } from '@/components/layout/MarketsShell';
-import { MarketsPageLoading } from '@/components/markets/MarketsPageLoading';
+import { MarketsShellLoading } from '@/components/layout/MarketsShellLoading';
 
 export default function SportsLoading() {
-  return <MarketsShell main={<MarketsPageLoading title="Sports" />} />;
+  return <MarketsShellLoading title="Sports" />;
 }
