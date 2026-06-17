@@ -4,21 +4,15 @@ import { useAtomValue } from 'jotai';
 
 import { MarketImage } from '@/components/ui/MarketImage';
 import { formatCents } from '@/lib/utils';
-import { outcomePricesAtom } from '@/store/markets';
-import type { EventDetailOutcome } from '@/types/event-detail';
+import { eventDetailAtom, outcomePricesAtom } from '@/store/markets';
 
-type EventTradePanelProps = {
-  title: string;
-  imageUrl?: string;
-  outcome?: EventDetailOutcome;
-};
-
-export function EventTradePanel({
-  title,
-  imageUrl,
-  outcome,
-}: EventTradePanelProps) {
+export function EventTradePanel() {
+  const detail = useAtomValue(eventDetailAtom);
   const prices = useAtomValue(outcomePricesAtom);
+
+  if (!detail) return null;
+
+  const outcome = detail.outcomes[0];
   const atomPrice = outcome?.id ? prices[outcome.id] : undefined;
   const price = atomPrice || outcome?.price || 0;
 
@@ -27,13 +21,13 @@ export function EventTradePanel({
       <div className="flex items-center gap-2">
         <MarketImage
           shape="square"
-          imageUrl={imageUrl}
+          imageUrl={detail.imageUrl}
           alt=""
           sizes="36px"
           className="size-9 rounded-lg"
         />
         <p className="line-clamp-2 text-sm font-semibold leading-snug">
-          {outcome?.label ?? title}
+          {outcome?.label ?? detail.title}
         </p>
       </div>
 

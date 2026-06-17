@@ -1,6 +1,7 @@
 'use client';
 
 import { useSetAtom } from 'jotai';
+import { useHydrateAtoms } from 'jotai/utils';
 import Link from 'next/link';
 import { useEffect, useMemo } from 'react';
 
@@ -20,6 +21,8 @@ type EventDetailContentProps = {
 export function EventDetailContent({ detail }: EventDetailContentProps) {
   const setEventDetail = useSetAtom(eventDetailAtom);
   const setOutcomePrices = useSetAtom(outcomePricesAtom);
+
+  useHydrateAtoms([[eventDetailAtom, detail]]);
 
   useEffect(() => {
     setEventDetail(detail);
@@ -126,11 +129,7 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
             </p>
           </main>
 
-          <EventTradePanel
-            title={detail.title}
-            imageUrl={detail.imageUrl}
-            outcome={detail.outcomes[0]}
-          />
+          <EventTradePanel />
         </div>
       </div>
     </div>
