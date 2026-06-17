@@ -52,11 +52,8 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
     [simulationMarket],
   );
 
-  const shouldSimulatePrices = detail.category === 'Crypto';
-
   useLivePriceSimulation({
     markets: simulationMarkets,
-    enabled: shouldSimulatePrices,
   });
 
   const leadingOutcomeId = detail.outcomes[0]?.id;
@@ -98,11 +95,7 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
                   <p className="mt-3 flex flex-wrap items-center gap-3 text-xs font-medium text-muted-foreground">
                     <span>{formatVolume(detail.volume)}</span>
                     <span aria-hidden>·</span>
-                    <span>
-                      {shouldSimulatePrices
-                        ? 'Live simulation'
-                        : 'Latest prices'}
-                    </span>
+                    <span>Live simulation</span>
                   </p>
                 </div>
               </div>

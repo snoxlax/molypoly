@@ -8,7 +8,7 @@ export const APP_NAME = "Polypoly";
 export type CategoryLink = {
   id: string;
   label: string;
-  icon?: IconName;
+  icon?: IconName | "wc";
   accent?: "gold";
   href?: string;
 };
