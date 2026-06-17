@@ -44,10 +44,15 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
     [detail]
   );
 
+  const simulationMarkets = useMemo(
+    () => [simulationMarket],
+    [simulationMarket],
+  );
+
   const shouldSimulatePrices = detail.category === 'Crypto';
 
   useLivePriceSimulation({
-    markets: [simulationMarket],
+    markets: simulationMarkets,
     enabled: shouldSimulatePrices,
   });
 
