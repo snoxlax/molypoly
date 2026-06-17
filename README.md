@@ -1,10 +1,10 @@
-# Molypoly
+# Polypoly
 
-Molypoly is a focused Next.js implementation of the core Polymarket browsing experience for the PLAEE frontend assignment. It uses the Polymarket Gamma API for open events, mirrors the main market grid and event detail flows, and demonstrates live probability updates with Jotai-powered simulated prices.
+Polypoly is a focused Next.js implementation of the core Polymarket browsing experience. It uses the Polymarket Gamma API for open events, mirrors the main market grid and event detail flows, and demonstrates live probability updates with Jotai-powered simulated prices on crypto event pages.
 
 ## Tech Stack
 
-- Next.js App Router
+- Next.js 16 (App Router)
 - React 19
 - TypeScript
 - Jotai for client-side price atoms
@@ -29,42 +29,90 @@ npm run lint
 npm run build
 ```
 
+## Routes
+
+| Route | Description |
+| --- | --- |
+| `/` | Politics market grid |
+| `/sports` | Sports market grid |
+| `/crypto` | Crypto market grid |
+| `/event/[slug]` | Event detail page |
+
+Only these three category pages are implemented. Other category labels in the header are presentational.
+
 ## Feature Coverage
 
-- Main politics market grid at `/`
-- Dedicated bonus category pages at `/crypto` and `/sports`
-- Working top navigation for Politics, Sports, and Crypto
-- Event detail pages at `/event/[slug]`
-- Event title, volume, all mapped outcomes, live prices, and trade-style buttons
+- Politics market grid at `/` with topic sidebar UI
+- Sports market grid at `/sports`
+- Crypto market grid at `/crypto` with crypto-specific topic sidebar UI and promo card
+- Top navigation links for Politics, Sports, and Crypto
+- Event detail pages at `/event/[slug]` with title, volume, mapped outcomes, and trade-style buttons
 - Loading skeletons for list routes and event detail routes
-- Event-page simulated live price movement without page refresh
-- Subtle rising/falling highlight when simulated prices change
+- **Live price simulation on crypto event pages only** — percentages update every 2.5s with rising/falling highlights
+- Politics and sports event pages show static server-provided prices labeled "Latest prices"
 
 ## Architecture
 
-Server routes fetch open Polymarket events from the Gamma API and map them into small UI-facing market types before rendering. The list pages keep that fetched market data as props instead of storing static lists globally.
+Server routes fetch open Polymarket events from the Gamma API and map them into small UI-facing market types before rendering. List pages pass fetched market data as props; nothing is stored in a global server cache beyond Next.js fetch caching.
 
-Client-side Jotai state is reserved for live event prices. Each outcome has its own atom through `jotai-family`, so a simulated tick updates only the subscribed outcome row instead of forcing the whole page or grid to re-render.
+Client-side Jotai state uses two plain atoms in `src/store/markets.ts`:
+
+- `eventDetailAtom` — current event detail for the trade panel
+- `outcomePricesAtom` — a `Record<outcomeId, price>` map for live percentages
+
+`useLivePriceSimulation` seeds and updates `outcomePricesAtom` on an interval via `useStore()`. Event detail components (`EventOutcomeRow`, `EventTradePanel`) read prices with `useAtomValue(outcomePricesAtom)` and look up their outcome by ID. Paired Yes/No and Up/Down outcomes stay in sync through `buildPairedOutcomeMap()`.
+
+### API fetching
+
+Events are fetched by tag (`politics`, `sports`, `crypto`) with per-tag limits:
+
+- Politics: 20 events
+- Sports: 20 events
+- Crypto: 50 events
+
+When a tag needs more than 10 events, the client splits the request into multiple parallel calls (`limit=10` per chunk, offset pagination) and merges the results with deduplication.
+
+Fetches use `next.revalidate: 60` (60-second ISR). Next.js only caches individual fetch responses under its 2MB limit — larger chunks (notably politics/sports offset pages) may skip the data cache and still return data at runtime. You may see a build-time warning about this; it is non-fatal.
 
 ## Realtime Approach
 
-This project intentionally does not use WebSockets. The assignment allows a convincing simulation, so live updates run only on event detail pages. On mount, the event outcomes seed Jotai price atoms from the server-provided prices. Every 2.5 seconds, one outcome moves by a small bounded delta; paired Yes/No or Up/Down outcomes are updated inversely.
+This project intentionally does not use WebSockets. The assignment allows a convincing simulation, so live updates are scoped narrowly:
 
-Market list pages show server-provided prices. This keeps the realtime demo clear and scoped to the event page, where the live percentages, trade buttons, and price-change highlights make the update behavior visible.
+1. Only **crypto** event detail pages enable simulation (`detail.category === "Crypto"`).
+2. On mount, outcomes seed Jotai price atoms from server-provided prices.
+3. Every 2.5 seconds, one outcome moves by a small bounded delta; paired Yes/No or Up/Down outcomes update inversely.
+
+Market list pages and non-crypto event pages show server-provided prices only.
 
 ## Next.js Usage
 
-- App Router route segments are used for `/`, `/crypto`, `/sports`, and `/event/[slug]`.
-- Dynamic event pages use async `params` and `searchParams`.
-- Route-level `loading.tsx` files provide streaming skeleton states.
-- Gamma API fetches use short `next.revalidate` caching so the server data is reasonably fresh while the client simulation handles live movement.
-- `not-found.tsx` handles missing or unavailable events.
+- App Router segments for `/`, `/crypto`, `/sports`, and `/event/[slug]`
+- Dynamic event pages use async `params`
+- Route-level `loading.tsx` files provide streaming skeleton states
+- Gamma API fetches use short `revalidate` caching; client simulation handles live movement on crypto events
+- `not-found.tsx` handles missing or unavailable events
 
 ## Limitations
 
-- No real trading, order book, authentication, or portfolio state.
-- No WebSocket connection to Polymarket live feeds.
-- Event outcomes use live percentages and trade buttons, not separate probability bars.
-- Topic sidebar counts are presentational and do not filter markets.
-- Search and auth header controls are visual only.
+### Scope
+
+- **Three categories only** — Politics, Sports, and Crypto. No other Polymarket categories are wired up.
+- **No real trading** — order book, authentication, wallet, and portfolio state are out of scope.
+- **No WebSockets** — prices are simulated client-side, not streamed from Polymarket.
+
+### Navigation
+
+- **Top category nav** — only Politics, Sports, and Crypto links work. Trending, World Cup, Breaking, Esports, and other header items are visual placeholders with no routes.
+- **Topic sidebars** — politics and crypto sidebars render filter labels and counts but do not filter the grid. Sidebar items are not interactive.
+
+### Data and caching
+
 - Event and category data quality depends on the public Gamma API response shape.
+- Fetch limits cap how many events appear per page (20 politics, 20 sports, 50 crypto).
+- Large API responses may not be fully cached by Next.js; chunked fetches reduce payload size but some chunks can still exceed the 2MB cache limit.
+
+### UI
+
+- Search and auth header controls are visual only.
+- Event outcomes use live percentages and trade buttons, not separate probability bars.
+- A few small visual bugs remain — layout, spacing, or polish differences from the reference Polymarket UI.
