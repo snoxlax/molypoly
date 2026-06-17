@@ -20,7 +20,7 @@ export function MarketsPageContent({
     leadingSlot ?? (showPromo ? <PromotionalGridCard /> : undefined);
 
   return (
-    <div className="scroll-container p-2 flex min-h-0 w-full min-w-0 flex-1 flex-col">
+    <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col p-2">
       <MarketsPageHeader title={title} />
       <MarketGrid
         markets={markets}
