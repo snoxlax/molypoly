@@ -2,8 +2,15 @@ import type { Market, MarketImageShape, MarketOutcome, MarketVariant } from "@/t
 import type { EventDetail, EventDetailOutcome } from "@/types/event-detail";
 import type { GammaEvent, GammaMarket } from "@/types/polymarket";
 
-const MAX_CARD_OUTCOMES = 2;
-const UNTITLED_MARKET = "Untitled market";
+import {
+  ASSET_LABEL_OVERRIDES,
+  CRYPTO_ASSETS,
+  CRYPTO_CATEGORY,
+  MAX_CARD_OUTCOMES,
+  SHORT_ASSET_LABELS,
+  UNTITLED_MARKET,
+  UP_DOWN_TIME_RANGE,
+} from "@/lib/polymarket/constants";
 
 // --- Gamma API field parsing ---
 
@@ -24,8 +31,6 @@ function parseNumericString(raw: string | undefined): number {
   const value = Number.parseFloat(raw);
   return Number.isFinite(value) ? value : 0;
 }
-
-// --- Outcome prices ---
 
 function readOutcomePrice(market: GammaMarket, outcomeLabel: string): number {
   const labels = parseJsonStringArray(market.outcomes);
@@ -50,6 +55,84 @@ function getRankedOpenMarkets(event: GammaEvent): GammaMarket[] {
       (a, b) =>
         readOutcomePrice(b, "Yes") - readOutcomePrice(a, "Yes"),
     );
+}
+
+function isUpDownMarket(market: GammaMarket): boolean {
+  const outcomes = parseJsonStringArray(market.outcomes);
+
+  return outcomes.includes("Up") && outcomes.includes("Down");
+}
+
+function defaultMultiOutcomeLabel(market: GammaMarket): string {
+  return market.groupItemTitle ?? market.question ?? "Unknown";
+}
+
+// --- Outcome assembly ---
+
+function buildOutcomesFromSingleMarket(market: GammaMarket): MarketOutcome[] {
+  const labels = parseJsonStringArray(market.outcomes);
+
+  if (labels.length > 0) {
+    return labels.map((label) => ({
+      id: `${market.id}-${label.toLowerCase()}`,
+      label,
+      price: readOutcomePrice(market, label),
+    }));
+  }
+
+  return [
+    {
+      id: `${market.id}-yes`,
+      label: "Yes",
+      price: readOutcomePrice(market, "Yes"),
+    },
+    {
+      id: `${market.id}-no`,
+      label: "No",
+      price: readOutcomePrice(market, "No"),
+    },
+  ];
+}
+
+function buildOutcomesFromMultipleMarkets(
+  markets: GammaMarket[],
+  options: {
+    limit?: number;
+    rankMarkets?: (markets: GammaMarket[]) => GammaMarket[];
+    formatLabel?: (market: GammaMarket) => string;
+  } = {},
+): MarketOutcome[] {
+  const {
+    limit = MAX_CARD_OUTCOMES,
+    rankMarkets = (items) => items,
+    formatLabel = defaultMultiOutcomeLabel,
+  } = options;
+
+  return rankMarkets(markets).slice(0, limit).map((market) => ({
+    id: market.id,
+    label: formatLabel(market),
+    price: readOutcomePrice(market, "Yes"),
+  }));
+}
+
+function withOutcomeVolume(
+  outcomes: MarketOutcome[],
+  volume?: number,
+): EventDetailOutcome[] {
+  return outcomes.map((outcome) => ({
+    ...outcome,
+    volume,
+  }));
+}
+
+function getLeadingOutcome(outcomes: MarketOutcome[]): MarketOutcome | undefined {
+  const upOutcome = outcomes.find((outcome) => outcome.label === "Up");
+  if (upOutcome) return upOutcome;
+
+  const yesOutcome = outcomes.find((outcome) => outcome.label === "Yes");
+  if (yesOutcome) return yesOutcome;
+
+  return outcomes[0];
 }
 
 // --- Market card assembly ---
@@ -83,49 +166,62 @@ function buildMarketBase(
   };
 }
 
-function buildCardOutcomes(markets: GammaMarket[]): MarketOutcome[] {
-  return markets.slice(0, MAX_CARD_OUTCOMES).map((market) => ({
-    id: market.id,
-    label: market.groupItemTitle ?? market.question ?? "Unknown",
-    price: readOutcomePrice(market, "Yes"),
-  }));
-}
+type MapMarketOptions = {
+  category: string;
+  assetLabel?: string;
+  resolveImageUrl?: (event: GammaEvent, market?: GammaMarket) => string | undefined;
+  resolveBinaryQuestion?: (event: GammaEvent, market: GammaMarket) => string | undefined;
+  resolveIsLive?: (event: GammaEvent, market: GammaMarket) => boolean | undefined;
+  rankMultiMarkets?: (markets: GammaMarket[]) => GammaMarket[];
+  formatMultiOutcomeLabel?: (market: GammaMarket) => string;
+};
 
-function buildBinaryMarket(
+function mapEventToMarketWithOptions(
   event: GammaEvent,
-  market: GammaMarket,
-  category: string,
-): Market {
-  const yesPrice = readOutcomePrice(market, "Yes");
-  const noPrice = readOutcomePrice(market, "No");
+  options: MapMarketOptions,
+): Market | null {
+  const openMarkets = getRankedOpenMarkets(event);
+
+  if (openMarkets.length === 0) return null;
+
+  const resolveImageUrl =
+    options.resolveImageUrl ?? ((gammaEvent) => gammaEvent.image ?? undefined);
+
+  if (openMarkets.length === 1) {
+    const market = openMarkets[0]!;
+    const outcomes = buildOutcomesFromSingleMarket(market);
+    const leadingOutcome = getLeadingOutcome(outcomes);
+
+    return {
+      ...buildMarketBase(event, {
+        category: options.category,
+        variant: "binary",
+        imageShape: "square",
+        question:
+          options.resolveBinaryQuestion?.(event, market) ??
+          market.question ??
+          undefined,
+        imageUrl: resolveImageUrl(event, market),
+        assetLabel: options.assetLabel,
+        isLive: options.resolveIsLive?.(event, market),
+      }),
+      leadingPrice: leadingOutcome?.price ?? 0,
+      outcomes,
+    };
+  }
 
   return {
     ...buildMarketBase(event, {
-      category,
-      variant: "binary",
-      imageShape: "square",
-      question: market.question ?? undefined,
-    }),
-    leadingPrice: yesPrice,
-    outcomes: [
-      { id: `${market.id}-yes`, label: "Yes", price: yesPrice },
-      { id: `${market.id}-no`, label: "No", price: noPrice },
-    ],
-  };
-}
-
-function buildMultiMarket(
-  event: GammaEvent,
-  openMarkets: GammaMarket[],
-  category: string,
-): Market {
-  return {
-    ...buildMarketBase(event, {
-      category,
+      category: options.category,
       variant: "multi",
       imageShape: "square",
+      imageUrl: resolveImageUrl(event, openMarkets[0]),
+      assetLabel: options.assetLabel,
     }),
-    outcomes: buildCardOutcomes(openMarkets),
+    outcomes: buildOutcomesFromMultipleMarkets(openMarkets, {
+      rankMarkets: options.rankMultiMarkets,
+      formatLabel: options.formatMultiOutcomeLabel,
+    }),
   };
 }
 
@@ -135,14 +231,7 @@ export function mapEventToMarket(
   event: GammaEvent,
   category = "Politics",
 ): Market | null {
-  const openMarkets = getRankedOpenMarkets(event);
-
-  if (openMarkets.length === 0) return null;
-  if (openMarkets.length === 1) {
-    return buildBinaryMarket(event, openMarkets[0]!, category);
-  }
-
-  return buildMultiMarket(event, openMarkets, category);
+  return mapEventToMarketWithOptions(event, { category });
 }
 
 export function mapEventsToMarkets(
@@ -154,48 +243,6 @@ export function mapEventsToMarkets(
     .filter((market): market is Market => market !== null);
 }
 
-function buildDetailOutcomesForSingleMarket(
-  market: GammaMarket,
-): EventDetailOutcome[] {
-  const labels = parseJsonStringArray(market.outcomes);
-  const volume = market.volume24hr ?? undefined;
-
-  if (labels.includes("Yes") && labels.includes("No")) {
-    return [
-      {
-        id: `${market.id}-yes`,
-        label: "Yes",
-        price: readOutcomePrice(market, "Yes"),
-        volume,
-      },
-      {
-        id: `${market.id}-no`,
-        label: "No",
-        price: readOutcomePrice(market, "No"),
-        volume,
-      },
-    ];
-  }
-
-  return labels.map((label) => ({
-    id: `${market.id}-${label.toLowerCase()}`,
-    label,
-    price: readOutcomePrice(market, label),
-    volume,
-  }));
-}
-
-function buildDetailOutcomesForMultiMarket(
-  openMarkets: GammaMarket[],
-): EventDetailOutcome[] {
-  return openMarkets.map((market) => ({
-    id: market.id,
-    label: market.groupItemTitle ?? market.question ?? "Unknown",
-    price: readOutcomePrice(market, "Yes"),
-    volume: market.volume24hr ?? undefined,
-  }));
-}
-
 function resolveEventMeta(
   title: string,
   categoryOverride?: string,
@@ -204,10 +251,10 @@ function resolveEventMeta(
   assetLabel?: string;
 } {
   if (categoryOverride) {
-    if (categoryOverride === "Crypto") {
+    if (categoryOverride === CRYPTO_CATEGORY) {
       const assetLabel = detectCryptoAssetLabel(title);
       return {
-        category: "Crypto",
+        category: CRYPTO_CATEGORY,
         assetLabel: assetLabel === CRYPTO_CATEGORY ? undefined : assetLabel,
       };
     }
@@ -227,8 +274,19 @@ export function mapEventToDetail(
 
   const outcomes =
     openMarkets.length === 1
-      ? buildDetailOutcomesForSingleMarket(openMarkets[0]!)
-      : buildDetailOutcomesForMultiMarket(openMarkets);
+      ? withOutcomeVolume(
+          buildOutcomesFromSingleMarket(openMarkets[0]!),
+          openMarkets[0]!.volume24hr ?? undefined,
+        )
+      : buildOutcomesFromMultipleMarkets(openMarkets, {
+          limit: openMarkets.length,
+        }).map((outcome) => {
+          const market = openMarkets.find((item) => item.id === outcome.id);
+          return {
+            ...outcome,
+            volume: market?.volume24hr ?? undefined,
+          };
+        });
 
   const { category, assetLabel } = resolveEventMeta(
     event.title ?? "",
@@ -249,41 +307,10 @@ export function mapEventToDetail(
 
 // --- Crypto markets ---
 
-const CRYPTO_CATEGORY = "Crypto";
-
-const CRYPTO_ASSETS = [
-  "Bitcoin",
-  "Ethereum",
-  "Solana",
-  "XRP",
-  "Dogecoin",
-  "BNB",
-  "MicroStrategy",
-] as const;
-
-const ASSET_LABEL_OVERRIDES: Record<string, string> = {
-  microstrategy: "Microstrategy",
-};
-
-const SHORT_ASSET_LABELS: Record<string, string> = {
-  Bitcoin: "BTC",
-  Ethereum: "ETH",
-  Solana: "SOL",
-};
-
-const UP_DOWN_TIME_RANGE =
-  /(\d{1,2}):(\d{2})\s*(AM|PM)\s*-\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i;
-
 function isShortIntervalUpDownEvent(event: GammaEvent): boolean {
   const title = event.title ?? "";
 
   return /up or down/i.test(title) && UP_DOWN_TIME_RANGE.test(title);
-}
-
-function isUpDownMarket(market: GammaMarket): boolean {
-  const outcomes = parseJsonStringArray(market.outcomes);
-
-  return outcomes.includes("Up") && outcomes.includes("Down");
 }
 
 function detectCryptoAssetLabel(title: string): string {
@@ -298,7 +325,10 @@ function detectCryptoAssetLabel(title: string): string {
   return CRYPTO_CATEGORY;
 }
 
-function getCryptoImageUrl(event: GammaEvent, market?: GammaMarket): string | undefined {
+function getCryptoImageUrl(
+  event: GammaEvent,
+  market?: GammaMarket,
+): string | undefined {
   return market?.image ?? market?.icon ?? event.image ?? undefined;
 }
 
@@ -336,79 +366,20 @@ function rankCryptoPriceMarkets(markets: GammaMarket[]): GammaMarket[] {
   });
 }
 
-function buildCryptoOutcomes(market: GammaMarket): MarketOutcome[] {
-  const labels = parseJsonStringArray(market.outcomes);
-
-  return labels.map((label) => ({
-    id: `${market.id}-${label.toLowerCase()}`,
-    label,
-    price: readOutcomePrice(market, label),
-  }));
-}
-
-function buildCryptoBinaryMarket(
-  event: GammaEvent,
-  market: GammaMarket,
-  assetLabel: string,
-): Market {
-  const outcomes = buildCryptoOutcomes(market);
-  const isUpDown = isUpDownMarket(market);
-  const leadingOutcome = isUpDown
-    ? outcomes.find((outcome) => outcome.label === "Up") ?? outcomes[0]
-    : outcomes.find((outcome) => outcome.label === "Yes") ?? outcomes[0];
-
-  return {
-    ...buildMarketBase(event, {
-      category: CRYPTO_CATEGORY,
-      variant: "binary",
-      imageShape: "square",
-      question: event.title ?? market.question ?? undefined,
-      imageUrl: getCryptoImageUrl(event, market),
-      assetLabel,
-      isLive: isUpDown,
-    }),
-    leadingPrice: leadingOutcome?.price ?? 0,
-    outcomes,
-  };
-}
-
-function buildCryptoMultiMarket(
-  event: GammaEvent,
-  openMarkets: GammaMarket[],
-  assetLabel: string,
-): Market {
-  const outcomes = rankCryptoPriceMarkets(openMarkets)
-    .slice(0, MAX_CARD_OUTCOMES)
-    .map((market) => ({
-      id: market.id,
-      label: formatCryptoOutcomeLabel(market),
-      price: readOutcomePrice(market, "Yes"),
-    }));
-
-  return {
-    ...buildMarketBase(event, {
-      category: CRYPTO_CATEGORY,
-      variant: "multi",
-      imageShape: "square",
-      imageUrl: getCryptoImageUrl(event, openMarkets[0]),
-      assetLabel,
-    }),
-    outcomes,
-  };
-}
-
 function mapEventToCryptoMarket(event: GammaEvent): Market | null {
-  const openMarkets = getRankedOpenMarkets(event);
-
-  if (openMarkets.length === 0) return null;
-
   const assetLabel = detectCryptoAssetLabel(event.title ?? "");
 
-  if (openMarkets.length === 1) {
-    return buildCryptoBinaryMarket(event, openMarkets[0]!, assetLabel);
-  }
-
-  return buildCryptoMultiMarket(event, openMarkets, assetLabel);
+  return mapEventToMarketWithOptions(event, {
+    category: CRYPTO_CATEGORY,
+    assetLabel: assetLabel === CRYPTO_CATEGORY ? undefined : assetLabel,
+    resolveImageUrl: getCryptoImageUrl,
+    resolveBinaryQuestion: (gammaEvent, market) =>
+      gammaEvent.title ?? market.question ?? undefined,
+    resolveIsLive: (_gammaEvent, market) =>
+      isUpDownMarket(market) ? true : undefined,
+    rankMultiMarkets: rankCryptoPriceMarkets,
+    formatMultiOutcomeLabel: formatCryptoOutcomeLabel,
+  });
 }
 
 export function mapEventsToCryptoMarkets(events: GammaEvent[]): Market[] {
