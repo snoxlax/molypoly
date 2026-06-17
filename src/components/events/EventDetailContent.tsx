@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useSetAtom } from "jotai";
-import Link from "next/link";
-import { useEffect, useMemo } from "react";
+import { useSetAtom } from 'jotai';
+import Link from 'next/link';
+import { useEffect, useMemo } from 'react';
 
 import { EventOutcomeRow } from '@/components/events/EventOutcomeRow';
 import { EventTradePanel } from '@/components/events/EventTradePanel';
 import { MarketImage } from '@/components/ui/MarketImage';
-import { useLivePriceSimulation } from "@/hooks/useLivePriceSimulation";
-import { formatVolume } from "@/lib/utils";
-import { eventDetailAtom, outcomePricesAtom } from "@/store/markets";
-import type { EventDetail } from "@/types/event-detail";
-import type { Market } from "@/types/market";
+import { useLivePriceSimulation } from '@/hooks/useLivePriceSimulation';
+import { formatVolume } from '@/lib/utils';
+import { eventDetailAtom, outcomePricesAtom } from '@/store/markets';
+import type { EventDetail } from '@/types/event-detail';
+import type { Market } from '@/types/market';
 
 type EventDetailContentProps = {
   detail: EventDetail;
@@ -34,17 +34,17 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
       id: detail.id,
       slug: detail.slug,
       question: detail.title,
-      category: detail.category ?? "",
-      variant: detail.outcomes.length <= 2 ? "binary" : "multi",
-      imageShape: "square",
+      category: detail.category ?? '',
+      variant: detail.outcomes.length <= 2 ? 'binary' : 'multi',
+      imageShape: 'square',
       volume: detail.volume,
       frequency: null,
       outcomes: detail.outcomes,
     }),
-    [detail],
+    [detail]
   );
 
-  const shouldSimulatePrices = detail.category === "Crypto";
+  const shouldSimulatePrices = detail.category === 'Crypto';
 
   useLivePriceSimulation({
     markets: [simulationMarket],
@@ -58,11 +58,11 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
     : detail.category;
 
   const backHref =
-    detail.category === "Sports"
-      ? "/sports"
-      : detail.category === "Crypto"
-        ? "/crypto"
-        : "/";
+    detail.category === 'Sports'
+      ? '/sports'
+      : detail.category === 'Crypto'
+        ? '/crypto'
+        : '/';
 
   return (
     <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto">
@@ -75,6 +75,7 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
                   shape="square"
                   imageUrl={detail.imageUrl}
                   alt=""
+                  sizes="(min-width: 640px) 64px, 56px"
                   className="size-14 rounded-lg sm:size-16"
                 />
                 <div className="min-w-0 flex-1">
@@ -90,7 +91,9 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
                     <span>{formatVolume(detail.volume)}</span>
                     <span aria-hidden>·</span>
                     <span>
-                      {shouldSimulatePrices ? "Live simulation" : "Latest prices"}
+                      {shouldSimulatePrices
+                        ? 'Live simulation'
+                        : 'Latest prices'}
                     </span>
                   </p>
                 </div>
@@ -113,7 +116,7 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
                 href={backHref}
                 className="text-sm font-medium text-primary hover:underline"
               >
-                ← Back to {detail.category || "markets"}
+                ← Back to {detail.category || 'markets'}
               </Link>
             </p>
           </main>

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useAtomValue } from "jotai";
+import { useAtomValue } from 'jotai';
 
 import { MarketImage } from '@/components/ui/MarketImage';
-import { formatCents } from "@/lib/utils";
-import { outcomePricesAtom } from "@/store/markets";
-import type { EventDetailOutcome } from "@/types/event-detail";
+import { formatCents } from '@/lib/utils';
+import { outcomePricesAtom } from '@/store/markets';
+import type { EventDetailOutcome } from '@/types/event-detail';
 
 type EventTradePanelProps = {
   title: string;
@@ -29,6 +29,7 @@ export function EventTradePanel({
           shape="square"
           imageUrl={imageUrl}
           alt=""
+          sizes="36px"
           className="size-9 rounded-lg"
         />
         <p className="line-clamp-2 text-sm font-semibold leading-snug">
@@ -38,23 +39,38 @@ export function EventTradePanel({
 
       <div className="mt-4 flex items-center justify-between border-b border-border text-sm font-semibold">
         <div className="flex gap-4">
-          <button type="button" className="border-b-2 border-foreground pb-2">
+          <button
+            type="button"
+            className="border-b-2 border-foreground pb-2"
+          >
             Buy
           </button>
-          <button type="button" className="pb-2 text-muted-foreground">
+          <button
+            type="button"
+            className="pb-2 text-muted-foreground"
+          >
             Sell
           </button>
         </div>
-        <button type="button" className="pb-2 text-xs text-foreground">
+        <button
+          type="button"
+          className="pb-2 text-xs text-foreground"
+        >
           Market v
         </button>
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-2">
-        <button type="button" className="ticket-choice ticket-choice-yes">
+        <button
+          type="button"
+          className="ticket-choice ticket-choice-yes"
+        >
           Yes {formatCents(price)}
         </button>
-        <button type="button" className="ticket-choice ticket-choice-no">
+        <button
+          type="button"
+          className="ticket-choice ticket-choice-no"
+        >
           No {formatCents(1 - price)}
         </button>
       </div>
@@ -65,7 +81,7 @@ export function EventTradePanel({
           <span className="text-3xl text-muted-foreground">$0</span>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          {["+$1", "+$5", "+$10", "+$100", "Max"].map((amount) => (
+          {['+$1', '+$5', '+$10', '+$100', 'Max'].map((amount) => (
             <button
               key={amount}
               type="button"

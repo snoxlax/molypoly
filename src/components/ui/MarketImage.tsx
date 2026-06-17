@@ -7,6 +7,8 @@ type MarketImageProps = {
   imageUrl?: string;
   alt?: string;
   className?: string;
+  /** Rendered width hint — must match the CSS display size. */
+  sizes?: string;
 };
 
 export function MarketImage({
@@ -14,25 +16,31 @@ export function MarketImage({
   imageUrl,
   alt = '',
   className,
+  sizes = '40px',
 }: MarketImageProps) {
   const shapeClass = shape === 'circle' ? 'rounded-full' : 'rounded-md';
+  const containerClass = cn(
+    'relative shrink-0 size-10 overflow-hidden',
+    shapeClass,
+    className,
+  );
 
   if (imageUrl) {
     return (
-      <Image
-        src={imageUrl}
-        alt={alt}
-        width={40}
-        height={40}
-        className={cn('size-10 shrink-0 object-cover', shapeClass, className)}
-      />
+      <div className={containerClass}>
+        <Image
+          src={imageUrl}
+          alt={alt}
+          fill
+          sizes={sizes}
+          unoptimized
+          className="object-cover"
+        />
+      </div>
     );
   }
 
   return (
-    <div
-      className={cn('size-10 shrink-0 bg-zinc-700', shapeClass, className)}
-      aria-hidden
-    />
+    <div className={cn(containerClass, 'bg-zinc-700')} aria-hidden />
   );
 }
