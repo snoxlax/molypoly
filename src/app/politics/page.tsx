@@ -3,7 +3,7 @@ import { TopicSidebar } from '@/components/layout/TopicSidebar';
 import { MarketsPageContent } from '@/components/markets/MarketsPageContent';
 import { getEventsByTag } from '@/lib/polymarket/client';
 import { POLITICS_CATEGORY } from '@/lib/polymarket/constants';
-import { mapEventsToMarkets } from '@/lib/polymarket/map-event-to-market';
+import { mapEventsToMarkets } from '@/lib/polymarket/mapEventToMarket';
 
 export default async function PoliticsPage() {
   const events = await getEventsByTag('politics');

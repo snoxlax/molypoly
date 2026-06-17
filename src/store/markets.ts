@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-import type { EventDetail } from "@/types/event-detail";
+import type { EventDetail } from "@/types/eventDetail";
 import type { Market } from "@/types/market";
 
 export const eventDetailAtom = atom<EventDetail | null>(null);

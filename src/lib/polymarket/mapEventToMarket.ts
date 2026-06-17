@@ -1,5 +1,5 @@
 import type { Market, MarketImageShape, MarketOutcome, MarketVariant } from "@/types/market";
-import type { EventDetail, EventDetailOutcome } from "@/types/event-detail";
+import type { EventDetail, EventDetailOutcome } from "@/types/eventDetail";
 import type { GammaEvent, GammaMarket } from "@/types/polymarket";
 
 import {
@@ -276,18 +276,18 @@ export function mapEventToDetail(
   const outcomes =
     openMarkets.length === 1
       ? withOutcomeVolume(
-          buildOutcomesFromSingleMarket(openMarkets[0]!),
-          openMarkets[0]!.volume24hr ?? undefined,
-        )
+        buildOutcomesFromSingleMarket(openMarkets[0]!),
+        openMarkets[0]!.volume24hr ?? undefined,
+      )
       : buildOutcomesFromMultipleMarkets(openMarkets, {
-          limit: openMarkets.length,
-        }).map((outcome) => {
-          const market = openMarkets.find((item) => item.id === outcome.id);
-          return {
-            ...outcome,
-            volume: market?.volume24hr ?? undefined,
-          };
-        });
+        limit: openMarkets.length,
+      }).map((outcome) => {
+        const market = openMarkets.find((item) => item.id === outcome.id);
+        return {
+          ...outcome,
+          volume: market?.volume24hr ?? undefined,
+        };
+      });
 
   const { category, assetLabel } = resolveEventMeta(
     event.title ?? "",

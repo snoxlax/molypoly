@@ -8,7 +8,7 @@ import { CRYPTO_CATEGORY } from '@/lib/polymarket/constants';
 import {
   getCryptoPromoMarket,
   mapEventsToCryptoMarkets,
-} from '@/lib/polymarket/map-event-to-market';
+} from '@/lib/polymarket/mapEventToMarket';
 
 export default async function CryptoPage() {
   const events = await getEventsByTag('crypto');

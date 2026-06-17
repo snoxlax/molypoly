@@ -1,5 +1,5 @@
 import type { IconName } from "@/types/icon";
-import type { TopicFilter } from "@/types/topic-sidebar";
+import type { TopicFilter } from "@/types/topicSidebar";
 
 export const APP_NAME = "Polypoly";
 

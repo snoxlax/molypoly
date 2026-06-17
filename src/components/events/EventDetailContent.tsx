@@ -16,7 +16,7 @@ import {
   SPORTS_CATEGORY,
 } from '@/lib/polymarket/constants';
 import { eventDetailAtom, outcomePricesAtom } from '@/store/markets';
-import type { EventDetail } from '@/types/event-detail';
+import type { EventDetail } from '@/types/eventDetail';
 import type { Market } from '@/types/market';
 
 type EventDetailContentProps = {
@@ -54,7 +54,7 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
 
   const simulationMarkets = useMemo(
     () => [simulationMarket],
-    [simulationMarket],
+    [simulationMarket]
   );
 
   useLivePriceSimulation({

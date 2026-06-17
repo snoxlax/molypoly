@@ -15,10 +15,7 @@ import {
 } from 'lucide-react';
 
 import { CryptoIcon } from '@/components/ui/CryptoIcon';
-import type {
-  CryptoIconName,
-  TopicLucideIconName,
-} from '@/types/topic-sidebar';
+import type { CryptoIconName, TopicLucideIconName } from '@/types/topicSidebar';
 
 const LUCIDE_ICONS: Record<TopicLucideIconName, LucideIcon> = {
   grid: LayoutGrid,

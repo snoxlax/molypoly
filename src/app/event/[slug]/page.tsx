@@ -1,15 +1,18 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
 import { EventDetailContent } from '@/components/events/EventDetailContent';
-import { getEventBySlug } from "@/lib/polymarket/client";
-import { mapEventToDetail } from "@/lib/polymarket/map-event-to-market";
+import { getEventBySlug } from '@/lib/polymarket/client';
+import { mapEventToDetail } from '@/lib/polymarket/mapEventToMarket';
 
 type EventPageProps = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ category?: string }>;
 };
 
-export default async function EventPage({ params, searchParams }: EventPageProps) {
+export default async function EventPage({
+  params,
+  searchParams,
+}: EventPageProps) {
   const { slug } = await params;
   const { category } = await searchParams;
   const event = await getEventBySlug(slug);

@@ -4,10 +4,7 @@ import { useState } from 'react';
 
 import { TOPIC_FILTERS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import {
-  isTopicFilterSeparator,
-  type TopicFilter,
-} from '@/types/topic-sidebar';
+import { isTopicFilterSeparator, type TopicFilter } from '@/types/topicSidebar';
 
 import { TopicSidebarIcon } from './TopicSidebarIcon';
 
@@ -53,7 +50,7 @@ export function TopicSidebar({
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring',
                   isActive
                     ? 'bg-sidebar-active font-medium text-foreground'
-                    : 'text-muted-foreground',
+                    : 'text-muted-foreground'
                 )}
               >
                 {hasIcon ? (

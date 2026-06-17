@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import type { CryptoIconName } from '@/types/topic-sidebar';
+import type { CryptoIconName } from '@/types/topicSidebar';
 
 import BitcoinIcon from '@/assets/icons/crypto/bitcoin.png';
 import BnbIcon from '@/assets/icons/crypto/bnb.png';
