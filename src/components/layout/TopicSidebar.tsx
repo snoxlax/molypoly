@@ -7,7 +7,7 @@ import {
   type TopicFilter,
 } from '@/types/topic-sidebar';
 
-import { TopicSidebarIcon } from './topic-sidebar-icon';
+import { TopicSidebarIcon } from './TopicSidebarIcon';
 
 type TopicSidebarProps = {
   activeTopic: string;

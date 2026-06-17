@@ -1,7 +1,7 @@
-import { MarketsShell } from '@/components/layout/markets-shell';
-import { TopicSidebar } from '@/components/layout/topic-sidebar';
-import { MarketCard } from '@/components/markets/market-card';
-import { MarketsPageContent } from '@/components/markets/markets-page-content';
+import { MarketsShell } from '@/components/layout/MarketsShell';
+import { TopicSidebar } from '@/components/layout/TopicSidebar';
+import { MarketCard } from '@/components/markets/MarketCard';
+import { MarketsPageContent } from '@/components/markets/MarketsPageContent';
 import { CRYPTO_TOPIC_FILTERS } from '@/lib/constants';
 import { getEventsByTag } from '@/lib/polymarket/client';
 import {

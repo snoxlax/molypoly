@@ -1,6 +1,6 @@
 "use client";
 
-import { YesNoButtons } from "@/components/ui/yes-no-buttons";
+import { YesNoButtons } from '@/components/ui/YesNoButtons';
 import { formatProbability } from "@/lib/utils";
 import type { MarketOutcome } from "@/types/market";
 

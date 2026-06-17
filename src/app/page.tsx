@@ -1,6 +1,6 @@
-import { MarketsShell } from '@/components/layout/markets-shell';
-import { TopicSidebar } from '@/components/layout/topic-sidebar';
-import { MarketsPageContent } from '@/components/markets/markets-page-content';
+import { MarketsShell } from '@/components/layout/MarketsShell';
+import { TopicSidebar } from '@/components/layout/TopicSidebar';
+import { MarketsPageContent } from '@/components/markets/MarketsPageContent';
 import { getEventsByTag } from '@/lib/polymarket/client';
 import { mapEventsToMarkets } from '@/lib/polymarket/map-event-to-market';
 

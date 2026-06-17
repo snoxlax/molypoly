@@ -1,5 +1,5 @@
 import type { Market } from '@/types/market';
-import { MarketCard } from './market-card';
+import { MarketCard } from './MarketCard';
 
 type MarketGridProps = {
   markets: Market[];

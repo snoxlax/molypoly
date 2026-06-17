@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
-import { Icon } from "@/components/ui/icon";
-import { WorldCupIcon } from "@/components/ui/world-cup-icon";
+import { Icon } from '@/components/ui/Icon';
+import { WorldCupIcon } from '@/components/ui/WorldCupIcon';
 import { CATEGORIES, isCategorySeparator } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 

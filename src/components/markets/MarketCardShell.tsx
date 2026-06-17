@@ -6,11 +6,11 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { MarketImage } from '@/components/ui/market-image';
+} from '@/components/ui/Card';
+import { MarketImage } from '@/components/ui/MarketImage';
 import { cn } from '@/lib/utils';
 import type { Market } from '@/types/market';
-import { MarketCardFooter } from './market-card-footer';
+import { MarketCardFooter } from './MarketCardFooter';
 
 type MarketCardShellProps = {
   market: Market;

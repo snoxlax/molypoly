@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-import { CategoryNav } from '@/components/layout/category-nav';
-import { Icon } from '@/components/ui/icon';
+import { CategoryNav } from '@/components/layout/CategoryNav';
+import { Icon } from '@/components/ui/Icon';
 import { APP_NAME } from '@/lib/constants';
 
 export function SiteHeader() {

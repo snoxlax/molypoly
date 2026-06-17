@@ -1,9 +1,9 @@
 'use client';
 
-import { ChanceArc } from '@/components/ui/chance-arc';
-import { YesNoButtons } from '@/components/ui/yes-no-buttons';
+import { ChanceArc } from '@/components/ui/ChanceArc';
+import { YesNoButtons } from '@/components/ui/YesNoButtons';
 import type { Market, MarketOutcome } from '@/types/market';
-import { MarketCardShell } from './market-card-shell';
+import { MarketCardShell } from './MarketCardShell';
 
 type MarketCardBinaryProps = {
   market: Market;

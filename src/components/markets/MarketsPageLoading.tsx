@@ -1,4 +1,4 @@
-import { MarketsPageHeader } from '@/components/layout/markets-page-header';
+import { MarketsPageHeader } from '@/components/layout/MarketsPageHeader';
 
 type MarketsPageLoadingProps = {
   title: string;

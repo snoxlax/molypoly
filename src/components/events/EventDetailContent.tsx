@@ -4,10 +4,10 @@ import { useSetAtom } from "jotai";
 import Link from "next/link";
 import { useEffect, useMemo } from "react";
 
-import { EventOutcomeRow } from "@/components/events/event-outcome-row";
-import { EventTradePanel } from "@/components/events/event-trade-panel";
-import { MarketImage } from "@/components/ui/market-image";
-import { useLivePriceSimulation } from "@/hooks/use-live-price-simulation";
+import { EventOutcomeRow } from '@/components/events/EventOutcomeRow';
+import { EventTradePanel } from '@/components/events/EventTradePanel';
+import { MarketImage } from '@/components/ui/MarketImage';
+import { useLivePriceSimulation } from "@/hooks/useLivePriceSimulation";
 import { formatVolume } from "@/lib/utils";
 import { eventDetailAtom, outcomePricesAtom } from "@/store/markets";
 import type { EventDetail } from "@/types/event-detail";

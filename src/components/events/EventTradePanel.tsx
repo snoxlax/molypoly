@@ -2,7 +2,7 @@
 
 import { useAtomValue } from "jotai";
 
-import { MarketImage } from "@/components/ui/market-image";
+import { MarketImage } from '@/components/ui/MarketImage';
 import { formatCents } from "@/lib/utils";
 import { outcomePricesAtom } from "@/store/markets";
 import type { EventDetailOutcome } from "@/types/event-detail";

@@ -1,6 +1,6 @@
 import type { Market } from '@/types/market';
-import { MarketCardShell } from './market-card-shell';
-import { OutcomeRow } from './outcome-row';
+import { MarketCardShell } from './MarketCardShell';
+import { OutcomeRow } from './OutcomeRow';
 
 type MarketCardMultiProps = {
   market: Market;

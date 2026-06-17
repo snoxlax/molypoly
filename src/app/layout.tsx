@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { JotaiProvider } from "@/components/providers/jotai-provider";
-import { SiteHeader } from "@/components/layout/site-header";
+import { JotaiProvider } from '@/components/providers/JotaiProvider';
+import { SiteHeader } from '@/components/layout/SiteHeader';
 import "./globals.css";
 
 const inter = localFont({

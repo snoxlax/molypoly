@@ -1,6 +1,6 @@
 import type { Market } from "@/types/market";
-import { MarketCardBinary } from "./market-card-binary";
-import { MarketCardMulti } from "./market-card-multi";
+import { MarketCardBinary } from './MarketCardBinary';
+import { MarketCardMulti } from './MarketCardMulti';
 
 type MarketCardProps = {
   market: Market;

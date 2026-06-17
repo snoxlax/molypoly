@@ -1,6 +1,6 @@
 import { Bookmark } from 'lucide-react';
 
-import { IconButton } from '@/components/ui/icon-button';
+import { IconButton } from '@/components/ui/IconButton';
 import { cn, formatVolume } from '@/lib/utils';
 import type { MarketFrequency } from '@/types/market';
 

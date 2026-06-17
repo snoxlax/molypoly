@@ -3,7 +3,7 @@
 import { useAtomValue } from "jotai";
 import { useEffect, useRef, useState } from "react";
 
-import { YesNoButtons } from "@/components/ui/yes-no-buttons";
+import { YesNoButtons } from '@/components/ui/YesNoButtons';
 import { cn, formatProbability, formatVolume } from "@/lib/utils";
 import { outcomePricesAtom } from "@/store/markets";
 import type { EventDetailOutcome } from "@/types/event-detail";

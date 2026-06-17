@@ -14,7 +14,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { CryptoIcon } from "@/components/ui/crypto-icon";
+import { CryptoIcon } from '@/components/ui/CryptoIcon';
 import type { CryptoIconName, TopicLucideIconName } from "@/types/topic-sidebar";
 
 const LUCIDE_ICONS: Record<TopicLucideIconName, LucideIcon> = {

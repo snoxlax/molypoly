@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { EventDetailContent } from "@/components/events/event-detail-content";
+import { EventDetailContent } from '@/components/events/EventDetailContent';
 import { getEventBySlug } from "@/lib/polymarket/client";
 import { mapEventToDetail } from "@/lib/polymarket/map-event-to-market";
 

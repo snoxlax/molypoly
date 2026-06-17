@@ -1,7 +1,7 @@
 import { Bookmark } from 'lucide-react';
 
-import { Icon } from '@/components/ui/icon';
-import { IconButton } from '@/components/ui/icon-button';
+import { Icon } from '@/components/ui/Icon';
+import { IconButton } from '@/components/ui/IconButton';
 
 type MarketsPageHeaderProps = {
   title: string;

@@ -1,6 +1,6 @@
-import { MarketsPageHeader } from '@/components/layout/markets-page-header';
-import { MarketGrid } from '@/components/markets/market-grid';
-import { PromotionalGridCard } from '@/components/markets/promotional-grid-card';
+import { MarketsPageHeader } from '@/components/layout/MarketsPageHeader';
+import { MarketGrid } from '@/components/markets/MarketGrid';
+import { PromotionalGridCard } from '@/components/markets/PromotionalGridCard';
 import type { Market } from '@/types/market';
 
 type MarketsPageContentProps = {
