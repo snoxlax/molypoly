@@ -20,7 +20,7 @@ export default async function TrendingPage() {
       }
       main={
         <MarketsPageContent
-          title="Trending"
+          title={TRENDING_CATEGORY}
           markets={markets}
           showPromo
         />

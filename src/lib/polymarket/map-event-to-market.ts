@@ -7,6 +7,7 @@ import {
   CRYPTO_ASSETS,
   CRYPTO_CATEGORY,
   MAX_CARD_OUTCOMES,
+  POLITICS_CATEGORY,
   SHORT_ASSET_LABELS,
   UNTITLED_MARKET,
   UP_DOWN_TIME_RANGE,
@@ -229,14 +230,14 @@ function mapEventToMarketWithOptions(
 
 export function mapEventToMarket(
   event: GammaEvent,
-  category = "Politics",
+  category = POLITICS_CATEGORY,
 ): Market | null {
   return mapEventToMarketWithOptions(event, { category });
 }
 
 export function mapEventsToMarkets(
   events: GammaEvent[],
-  category = "Politics",
+  category = POLITICS_CATEGORY,
 ): Market[] {
   return events
     .map((event) => mapEventToMarket(event, category))
@@ -261,7 +262,7 @@ function resolveEventMeta(
     return { category: categoryOverride };
   }
 
-  return { category: categoryOverride ?? "Politics" };
+  return { category: categoryOverride ?? POLITICS_CATEGORY };
 }
 
 export function mapEventToDetail(

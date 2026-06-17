@@ -4,6 +4,7 @@ import { MarketCard } from '@/components/markets/MarketCard';
 import { MarketsPageContent } from '@/components/markets/MarketsPageContent';
 import { CRYPTO_TOPIC_FILTERS } from '@/lib/constants';
 import { getEventsByTag } from '@/lib/polymarket/client';
+import { CRYPTO_CATEGORY } from '@/lib/polymarket/constants';
 import {
   getCryptoPromoMarket,
   mapEventsToCryptoMarkets,
@@ -24,7 +25,7 @@ export default async function CryptoPage() {
       }
       main={
         <MarketsPageContent
-          title="Crypto"
+          title={CRYPTO_CATEGORY}
           markets={markets}
           leadingSlot={
             promoMarket ? <MarketCard market={promoMarket} /> : undefined

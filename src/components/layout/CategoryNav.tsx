@@ -6,6 +6,11 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { Icon } from '@/components/ui/Icon';
 import { WorldCupIcon } from '@/components/ui/WorldCupIcon';
 import { CATEGORIES, isCategorySeparator } from "@/lib/constants";
+import {
+  CRYPTO_CATEGORY,
+  POLITICS_CATEGORY,
+  SPORTS_CATEGORY,
+} from "@/lib/polymarket/constants";
 import { cn } from "@/lib/utils";
 
 function getActiveCategoryId(pathname: string): string {
@@ -23,11 +28,11 @@ export function CategoryNav() {
   const categoryParam = searchParams.get("category");
 
   const activeCategory = pathname.startsWith("/event/")
-    ? categoryParam === "Crypto"
+    ? categoryParam === CRYPTO_CATEGORY
       ? "crypto"
-      : categoryParam === "Sports"
+      : categoryParam === SPORTS_CATEGORY
         ? "sports"
-        : categoryParam === "Politics"
+        : categoryParam === POLITICS_CATEGORY
           ? "politics"
           : "trending"
     : getActiveCategoryId(pathname);

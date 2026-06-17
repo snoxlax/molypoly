@@ -1,6 +1,8 @@
 export const MAX_CARD_OUTCOMES = 2;
 export const UNTITLED_MARKET = "Untitled market";
 export const TRENDING_CATEGORY = "Trending";
+export const POLITICS_CATEGORY = "Politics";
+export const SPORTS_CATEGORY = "Sports";
 export const CRYPTO_CATEGORY = "Crypto";
 
 export const CRYPTO_ASSETS = [

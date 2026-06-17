@@ -10,6 +10,11 @@ import { EventTradePanel } from '@/components/events/EventTradePanel';
 import { MarketImage } from '@/components/ui/MarketImage';
 import { useLivePriceSimulation } from '@/hooks/useLivePriceSimulation';
 import { formatVolume } from '@/lib/utils';
+import {
+  CRYPTO_CATEGORY,
+  POLITICS_CATEGORY,
+  SPORTS_CATEGORY,
+} from '@/lib/polymarket/constants';
 import { eventDetailAtom, outcomePricesAtom } from '@/store/markets';
 import type { EventDetail } from '@/types/event-detail';
 import type { Market } from '@/types/market';
@@ -63,11 +68,11 @@ export function EventDetailContent({ detail }: EventDetailContentProps) {
     : detail.category;
 
   const backHref =
-    detail.category === 'Sports'
+    detail.category === SPORTS_CATEGORY
       ? '/sports'
-      : detail.category === 'Crypto'
+      : detail.category === CRYPTO_CATEGORY
         ? '/crypto'
-        : detail.category === 'Politics'
+        : detail.category === POLITICS_CATEGORY
           ? '/politics'
           : '/';
 

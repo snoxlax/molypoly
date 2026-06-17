@@ -1,11 +1,9 @@
 import type { IconName } from "@/types/icon";
 import type { TopicFilter } from "@/types/topic-sidebar";
 
-export type { TopicFilter } from "@/types/topic-sidebar";
-
 export const APP_NAME = "Polypoly";
 
-export type CategoryLink = {
+type CategoryLink = {
   id: string;
   label: string;
   icon?: IconName | "wc";
@@ -13,12 +11,12 @@ export type CategoryLink = {
   href?: string;
 };
 
-export type CategorySeparator = {
+type CategorySeparator = {
   id: string;
   type: "separator";
 };
 
-export type Category = CategoryLink | CategorySeparator;
+type Category = CategoryLink | CategorySeparator;
 
 export function isCategorySeparator(
   category: Category,

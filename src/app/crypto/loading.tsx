@@ -1,11 +1,12 @@
 import { MarketsShellLoading } from '@/components/layout/MarketsShellLoading';
 import { TopicSidebar } from '@/components/layout/TopicSidebar';
 import { CRYPTO_TOPIC_FILTERS } from '@/lib/constants';
+import { CRYPTO_CATEGORY } from '@/lib/polymarket/constants';
 
 export default function CryptoLoading() {
   return (
     <MarketsShellLoading
-      title="Crypto"
+      title={CRYPTO_CATEGORY}
       sidebar={
         <TopicSidebar
           activeTopic="all"
