@@ -23,3 +23,12 @@ export function formatProbability(value: number): string {
   if (percent < 1) return "<1%";
   return `${percent}%`;
 }
+
+/** Polymarket-style cent price, e.g. 0.32 → "32¢", 0.008 → "0.8¢" */
+export function formatCents(value: number): string {
+  const cents = value * 100;
+  if (cents >= 10 && Math.abs(cents - Math.round(cents)) < 0.05) {
+    return `${Math.round(cents)}¢`;
+  }
+  return `${cents.toFixed(1)}¢`;
+}
