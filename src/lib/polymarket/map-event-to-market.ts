@@ -1,4 +1,5 @@
 import type { Market, MarketImageShape, MarketOutcome, MarketVariant } from "@/types/market";
+import type { EventDetail, EventDetailOutcome } from "@/types/event-detail";
 import type { GammaEvent, GammaMarket } from "@/types/polymarket";
 
 const MAX_CARD_OUTCOMES = 2;
@@ -151,6 +152,99 @@ export function mapEventsToMarkets(
   return events
     .map((event) => mapEventToMarket(event, category))
     .filter((market): market is Market => market !== null);
+}
+
+function buildDetailOutcomesForSingleMarket(
+  market: GammaMarket,
+): EventDetailOutcome[] {
+  const labels = parseJsonStringArray(market.outcomes);
+  const volume = market.volume24hr ?? undefined;
+
+  if (labels.includes("Yes") && labels.includes("No")) {
+    return [
+      {
+        id: `${market.id}-yes`,
+        label: "Yes",
+        price: readOutcomePrice(market, "Yes"),
+        volume,
+      },
+      {
+        id: `${market.id}-no`,
+        label: "No",
+        price: readOutcomePrice(market, "No"),
+        volume,
+      },
+    ];
+  }
+
+  return labels.map((label) => ({
+    id: `${market.id}-${label.toLowerCase()}`,
+    label,
+    price: readOutcomePrice(market, label),
+    volume,
+  }));
+}
+
+function buildDetailOutcomesForMultiMarket(
+  openMarkets: GammaMarket[],
+): EventDetailOutcome[] {
+  return openMarkets.map((market) => ({
+    id: market.id,
+    label: market.groupItemTitle ?? market.question ?? "Unknown",
+    price: readOutcomePrice(market, "Yes"),
+    volume: market.volume24hr ?? undefined,
+  }));
+}
+
+function resolveEventMeta(
+  title: string,
+  categoryOverride?: string,
+): {
+  category: string;
+  assetLabel?: string;
+} {
+  if (categoryOverride) {
+    if (categoryOverride === "Crypto") {
+      const assetLabel = detectCryptoAssetLabel(title);
+      return {
+        category: "Crypto",
+        assetLabel: assetLabel === CRYPTO_CATEGORY ? undefined : assetLabel,
+      };
+    }
+    return { category: categoryOverride };
+  }
+
+  return { category: categoryOverride ?? "Politics" };
+}
+
+export function mapEventToDetail(
+  event: GammaEvent,
+  categoryOverride?: string,
+): EventDetail | null {
+  const openMarkets = getRankedOpenMarkets(event);
+
+  if (openMarkets.length === 0) return null;
+
+  const outcomes =
+    openMarkets.length === 1
+      ? buildDetailOutcomesForSingleMarket(openMarkets[0]!)
+      : buildDetailOutcomesForMultiMarket(openMarkets);
+
+  const { category, assetLabel } = resolveEventMeta(
+    event.title ?? "",
+    categoryOverride,
+  );
+
+  return {
+    id: event.id,
+    slug: event.slug ?? event.id,
+    title: event.title ?? UNTITLED_MARKET,
+    volume: event.volume ?? 0,
+    imageUrl: event.image ?? undefined,
+    category,
+    assetLabel,
+    outcomes,
+  };
 }
 
 // --- Crypto markets ---
