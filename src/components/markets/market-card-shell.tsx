@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   Card,
   CardAction,
@@ -24,10 +26,14 @@ export function MarketCardShell({
   children,
 }: MarketCardShellProps) {
   return (
-    <Card
-      size="sm"
-      className="relative h-full min-h-[181px] flex flex-col shadow-md shadow-black/5"
+    <Link
+      href={`/event/${market.slug}?category=${encodeURIComponent(market.category)}`}
+      className="block h-full w-full min-w-0 transition-shadow hover:ring-2 hover:ring-primary/20 rounded-xl"
     >
+      <Card
+        size="sm"
+        className="relative h-full min-h-[181px] flex flex-col shadow-md shadow-black/5"
+      >
       <CardHeader className="flex items-start gap-3">
         <MarketImage
           shape={market.imageShape}
@@ -58,5 +64,6 @@ export function MarketCardShell({
         />
       </CardContent>
     </Card>
+    </Link>
   );
 }

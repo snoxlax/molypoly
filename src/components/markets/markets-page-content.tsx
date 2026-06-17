@@ -1,11 +1,6 @@
-'use client';
-
-import { useHydrateAtoms } from 'jotai/utils';
-
 import { MarketsPageHeader } from '@/components/layout/markets-page-header';
 import { MarketGrid } from '@/components/markets/market-grid';
 import { PromotionalGridCard } from '@/components/markets/promotional-grid-card';
-import { marketsAtom } from '@/store/markets';
 import type { Market } from '@/types/market';
 
 type MarketsPageContentProps = {
@@ -21,17 +16,14 @@ export function MarketsPageContent({
   showPromo = false,
   leadingSlot,
 }: MarketsPageContentProps) {
-  useHydrateAtoms([[marketsAtom, markets]]);
-
   const gridLeadingSlot =
     leadingSlot ?? (showPromo ? <PromotionalGridCard /> : undefined);
 
   return (
-    <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto">
+    <div className="scroll-container p-2 flex min-h-0 w-full min-w-0 flex-1 flex-col">
       <MarketsPageHeader title={title} />
       <MarketGrid
         markets={markets}
-        title={title}
         leadingSlot={gridLeadingSlot}
       />
     </div>

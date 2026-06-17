@@ -1,3 +1,5 @@
+'use client';
+
 import { ChanceArc } from '@/components/ui/chance-arc';
 import { YesNoButtons } from '@/components/ui/yes-no-buttons';
 import type { Market, MarketOutcome } from '@/types/market';
@@ -26,7 +28,7 @@ export function MarketCardBinary({ market }: MarketCardBinaryProps) {
   const trailingOutcome =
     pickOutcome(market.outcomes, ['Down', 'No'], 1) ?? market.outcomes[1];
 
-  const leadingPrice = market.leadingPrice ?? leadingOutcome?.price ?? 0;
+  const leadingPrice = leadingOutcome?.price ?? 0;
   const isUpDown =
     leadingOutcome?.label === 'Up' && trailingOutcome?.label === 'Down';
 
@@ -46,6 +48,7 @@ export function MarketCardBinary({ market }: MarketCardBinaryProps) {
           variant="blocks"
           yesLabel={leadingOutcome?.label ?? 'Yes'}
           noLabel={trailingOutcome?.label ?? 'No'}
+          price={leadingPrice}
         />
       </div>
     </MarketCardShell>
