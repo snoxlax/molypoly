@@ -1,30 +1,33 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
+import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import { JotaiProvider } from '@/components/providers/JotaiProvider';
 import { SiteHeader } from '@/components/layout/SiteHeader';
-import "./globals.css";
+import './globals.css';
 
 const inter = localFont({
   src: [
     {
-      path: "../assets/fonts/poly-inter-variable-font.ttf",
-      weight: "100 900",
-      style: "normal",
+      path: '../assets/fonts/poly-inter-variable-font.ttf',
+      weight: '100 900',
+      style: 'normal',
     },
     {
-      path: "../assets/fonts/poly-inter.ttf",
-      weight: "100 900",
-      style: "italic",
+      path: '../assets/fonts/poly-inter.ttf',
+      weight: '100 900',
+      style: 'italic',
     },
   ],
-  variable: "--font-inter",
-  display: "swap",
-  adjustFontFallback: "Arial",
+  variable: '--font-inter',
+  display: 'swap',
+  adjustFontFallback: 'Arial',
 });
 
 export const metadata: Metadata = {
-  title: "Polypoly",
-  description: "Prediction markets platform",
+  title: {
+    default: 'Polymarket',
+    template: '%s | Polymarket',
+  },
+  description: 'Prediction markets platform',
 };
 
 export default function RootLayout({

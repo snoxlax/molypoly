@@ -1,9 +1,16 @@
+import type { Metadata } from 'next';
 import { MarketsShell } from '@/components/layout/MarketsShell';
 import { TopicSidebar } from '@/components/layout/TopicSidebar';
 import { MarketsPageContent } from '@/components/markets/MarketsPageContent';
 import { TRENDING_CATEGORY, TRENDING_TOPIC_FILTERS } from '@/lib/constants';
 import { getTrendingEvents } from '@/services/polymarket/client';
 import { mapEventsToMarkets } from '@/services/polymarket/mapEventToMarket';
+
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Polymarket',
+  },
+};
 
 export default async function TrendingPage() {
   const events = await getTrendingEvents();
