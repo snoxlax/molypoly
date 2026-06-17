@@ -1,10 +1,9 @@
 import { MarketsShell } from '@/components/layout/MarketsShell';
 import { TopicSidebar } from '@/components/layout/TopicSidebar';
 import { MarketsPageContent } from '@/components/markets/MarketsPageContent';
-import { TRENDING_TOPIC_FILTERS } from '@/lib/constants';
-import { getTrendingEvents } from '@/lib/polymarket/client';
-import { TRENDING_CATEGORY } from '@/lib/polymarket/constants';
-import { mapEventsToMarkets } from '@/lib/polymarket/mapEventToMarket';
+import { TRENDING_CATEGORY, TRENDING_TOPIC_FILTERS } from '@/lib/constants';
+import { getTrendingEvents } from '@/services/polymarket/client';
+import { mapEventsToMarkets } from '@/services/polymarket/mapEventToMarket';
 
 export default async function TrendingPage() {
   const events = await getTrendingEvents();

@@ -9,12 +9,12 @@ import { EventOutcomeRow } from '@/components/events/EventOutcomeRow';
 import { EventTradePanel } from '@/components/events/EventTradePanel';
 import { MarketImage } from '@/components/ui/MarketImage';
 import { useLivePriceSimulation } from '@/hooks/useLivePriceSimulation';
-import { formatVolume } from '@/lib/utils';
 import {
   CRYPTO_CATEGORY,
   POLITICS_CATEGORY,
   SPORTS_CATEGORY,
-} from '@/lib/polymarket/constants';
+} from '@/lib/constants';
+import { formatVolume } from '@/lib/utils';
 import { eventDetailAtom, outcomePricesAtom } from '@/store/markets';
 import type { EventDetail } from '@/types/eventDetail';
 import type { Market } from '@/types/market';

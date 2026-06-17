@@ -5,12 +5,13 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 import { Icon } from '@/components/ui/Icon';
 import { WorldCupIcon } from '@/components/ui/WorldCupIcon';
-import { CATEGORIES, isCategorySeparator } from "@/lib/constants";
 import {
+  CATEGORIES,
   CRYPTO_CATEGORY,
+  isCategorySeparator,
   POLITICS_CATEGORY,
   SPORTS_CATEGORY,
-} from "@/lib/polymarket/constants";
+} from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 function getActiveCategoryId(pathname: string): string {

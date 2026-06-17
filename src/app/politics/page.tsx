@@ -1,9 +1,9 @@
 import { MarketsShell } from '@/components/layout/MarketsShell';
 import { TopicSidebar } from '@/components/layout/TopicSidebar';
 import { MarketsPageContent } from '@/components/markets/MarketsPageContent';
-import { getEventsByTag } from '@/lib/polymarket/client';
-import { POLITICS_CATEGORY } from '@/lib/polymarket/constants';
-import { mapEventsToMarkets } from '@/lib/polymarket/mapEventToMarket';
+import { POLITICS_CATEGORY } from '@/lib/constants';
+import { getEventsByTag } from '@/services/polymarket/client';
+import { mapEventsToMarkets } from '@/services/polymarket/mapEventToMarket';
 
 export default async function PoliticsPage() {
   const events = await getEventsByTag('politics');

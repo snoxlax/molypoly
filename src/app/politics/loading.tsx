@@ -1,6 +1,6 @@
 import { MarketsShellLoading } from '@/components/layout/MarketsShellLoading';
 import { TopicSidebar } from '@/components/layout/TopicSidebar';
-import { POLITICS_CATEGORY } from '@/lib/polymarket/constants';
+import { POLITICS_CATEGORY } from '@/lib/constants';
 
 export default function PoliticsLoading() {
   return (

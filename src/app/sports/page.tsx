@@ -1,8 +1,8 @@
 import { MarketsShell } from '@/components/layout/MarketsShell';
 import { MarketsPageContent } from '@/components/markets/MarketsPageContent';
-import { getEventsByTag } from '@/lib/polymarket/client';
-import { SPORTS_CATEGORY } from '@/lib/polymarket/constants';
-import { mapEventsToMarkets } from '@/lib/polymarket/mapEventToMarket';
+import { SPORTS_CATEGORY } from '@/lib/constants';
+import { getEventsByTag } from '@/services/polymarket/client';
+import { mapEventsToMarkets } from '@/services/polymarket/mapEventToMarket';
 
 export default async function SportsPage() {
   const events = await getEventsByTag('sports');

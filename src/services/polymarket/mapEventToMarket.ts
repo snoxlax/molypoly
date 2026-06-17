@@ -11,7 +11,7 @@ import {
   SHORT_ASSET_LABELS,
   UNTITLED_MARKET,
   UP_DOWN_TIME_RANGE,
-} from "@/lib/polymarket/constants";
+} from "@/lib/constants";
 
 // --- Gamma API field parsing ---
 

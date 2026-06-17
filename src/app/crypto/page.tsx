@@ -2,13 +2,12 @@ import { MarketsShell } from '@/components/layout/MarketsShell';
 import { TopicSidebar } from '@/components/layout/TopicSidebar';
 import { MarketCard } from '@/components/markets/MarketCard';
 import { MarketsPageContent } from '@/components/markets/MarketsPageContent';
-import { CRYPTO_TOPIC_FILTERS } from '@/lib/constants';
-import { getEventsByTag } from '@/lib/polymarket/client';
-import { CRYPTO_CATEGORY } from '@/lib/polymarket/constants';
+import { CRYPTO_CATEGORY, CRYPTO_TOPIC_FILTERS } from '@/lib/constants';
+import { getEventsByTag } from '@/services/polymarket/client';
 import {
   getCryptoPromoMarket,
   mapEventsToCryptoMarkets,
-} from '@/lib/polymarket/mapEventToMarket';
+} from '@/services/polymarket/mapEventToMarket';
 
 export default async function CryptoPage() {
   const events = await getEventsByTag('crypto');

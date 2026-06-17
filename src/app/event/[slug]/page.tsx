@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 
 import { EventDetailContent } from '@/components/events/EventDetailContent';
-import { getEventBySlug } from '@/lib/polymarket/client';
-import { mapEventToDetail } from '@/lib/polymarket/mapEventToMarket';
+import { getEventBySlug } from '@/services/polymarket/client';
+import { mapEventToDetail } from '@/services/polymarket/mapEventToMarket';
 
 type EventPageProps = {
   params: Promise<{ slug: string }>;
