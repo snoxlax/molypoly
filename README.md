@@ -33,19 +33,21 @@ npm run build
 
 | Route | Description |
 | --- | --- |
-| `/` | Politics market grid |
+| `/` | Trending market grid (mixed categories by volume) |
+| `/politics` | Politics market grid |
 | `/sports` | Sports market grid |
 | `/crypto` | Crypto market grid |
 | `/event/[slug]` | Event detail page |
 
-Only these three category pages are implemented. Other category labels in the header are presentational.
+Trending, Politics, Sports, and Crypto are implemented. Other category labels in the header are presentational.
 
 ## Feature Coverage
 
-- Politics market grid at `/` with topic sidebar UI
+- Trending market grid at `/` with cross-category topic sidebar UI
+- Politics market grid at `/politics` with politics topic sidebar UI
 - Sports market grid at `/sports`
 - Crypto market grid at `/crypto` with crypto-specific topic sidebar UI and promo card
-- Top navigation links for Politics, Sports, and Crypto
+- Top navigation links for Trending, Politics, Sports, and Crypto
 - Event detail pages at `/event/[slug]` with title, volume, mapped outcomes, and trade-style buttons
 - Loading skeletons for list routes and event detail routes
 - **Live price simulation on all event detail pages** — percentages update every 2.5s with rising/falling highlights
@@ -63,8 +65,9 @@ Client-side Jotai state uses two plain atoms in `src/store/markets.ts`:
 
 ### API fetching
 
-Events are fetched by tag (`politics`, `sports`, `crypto`) with per-tag limits:
+Events are fetched by tag (`politics`, `sports`, `crypto`) with per-tag limits, plus a trending feed at `/`:
 
+- Trending: 30 events (no tag filter, ordered by `volume24hr`)
 - Politics: 20 events
 - Sports: 20 events
 - Crypto: 50 events
@@ -85,7 +88,7 @@ Market list pages show server-provided prices only.
 
 ## Next.js Usage
 
-- App Router segments for `/`, `/crypto`, `/sports`, and `/event/[slug]`
+- App Router segments for `/`, `/politics`, `/crypto`, `/sports`, and `/event/[slug]`
 - Dynamic event pages use async `params`
 - Route-level `loading.tsx` files provide streaming skeleton states
 - Gamma API fetches use short `revalidate` caching; client simulation handles live movement on event detail pages
@@ -101,13 +104,13 @@ Market list pages show server-provided prices only.
 
 ### Navigation
 
-- **Top category nav** — only Politics, Sports, and Crypto links work. Trending, World Cup, Breaking, Esports, and other header items are visual placeholders with no routes.
-- **Topic sidebars** — politics and crypto sidebars render filter labels and counts but do not filter the grid. Sidebar items are not interactive.
+- **Top category nav** — Trending, Politics, Sports, and Crypto links work. World Cup, Breaking, Esports, and other header items are visual placeholders with no routes.
+- **Topic sidebars** — trending, politics, and crypto sidebars render filter labels and counts but do not filter the grid.
 
 ### Data and caching
 
 - Event and category data quality depends on the public Gamma API response shape.
-- Fetch limits cap how many events appear per page (20 politics, 20 sports, 50 crypto).
+- Fetch limits cap how many events appear per page (30 trending, 20 politics, 20 sports, 50 crypto).
 - Large API responses may not be fully cached by Next.js; chunked fetches reduce payload size but some chunks can still exceed the 2MB cache limit.
 
 ### UI
