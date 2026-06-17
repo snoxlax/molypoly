@@ -4,10 +4,8 @@ import { MarketsPageContent } from '@/components/markets/markets-page-content';
 import { getEventsByTag } from '@/lib/polymarket/client';
 import { mapEventsToMarkets } from '@/lib/polymarket/map-event-to-market';
 
-export const dynamic = 'force-dynamic';
-
 export default async function Home() {
-  const events = await getEventsByTag('politics');
+  const events = await getEventsByTag('politics', { limit: 20 });
   const markets = mapEventsToMarkets(events, 'Politics');
 
   return (
