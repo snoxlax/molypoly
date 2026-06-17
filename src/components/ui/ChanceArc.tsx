@@ -45,7 +45,11 @@ function getChanceArcColor(percent: number): string {
   return AMBER;
 }
 
-export function ChanceArc({ percent, className, sublabel = "chance" }: ChanceArcProps) {
+export function ChanceArc({
+  percent,
+  className,
+  sublabel = 'chance',
+}: ChanceArcProps) {
   const clampedPercent = Math.min(100, Math.max(0, percent));
   const progress = clampedPercent / 100;
 

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   BarChart3,
@@ -12,21 +12,24 @@ import {
   RotateCcw,
   TrendingUp,
   type LucideIcon,
-} from "lucide-react";
+} from 'lucide-react';
 
 import { CryptoIcon } from '@/components/ui/CryptoIcon';
-import type { CryptoIconName, TopicLucideIconName } from "@/types/topic-sidebar";
+import type {
+  CryptoIconName,
+  TopicLucideIconName,
+} from '@/types/topic-sidebar';
 
 const LUCIDE_ICONS: Record<TopicLucideIconName, LucideIcon> = {
   grid: LayoutGrid,
   gauge: Gauge,
-  "clock-dashed": CircleDashed,
-  "clock-undo": RotateCcw,
+  'clock-dashed': CircleDashed,
+  'clock-undo': RotateCcw,
   clock: Clock,
   calendar: Calendar,
-  "bar-chart": BarChart3,
+  'bar-chart': BarChart3,
   trending: TrendingUp,
-  "calendar-year": CalendarDays,
+  'calendar-year': CalendarDays,
   chart: LineChart,
 };
 
@@ -40,7 +43,13 @@ export function TopicSidebarIcon({
   cryptoIcon,
 }: TopicSidebarIconProps) {
   if (cryptoIcon) {
-    return <CryptoIcon name={cryptoIcon} size={18} className="shrink-0" />;
+    return (
+      <CryptoIcon
+        name={cryptoIcon}
+        size={18}
+        className="shrink-0"
+      />
+    );
   }
 
   if (lucideIcon) {

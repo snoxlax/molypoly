@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useAtomValue } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import { useAtomValue } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
 
 import { YesNoButtons } from '@/components/ui/YesNoButtons';
-import { cn, formatProbability, formatVolume } from "@/lib/utils";
-import { outcomePricesAtom } from "@/store/markets";
-import type { EventDetailOutcome } from "@/types/event-detail";
+import { cn, formatProbability, formatVolume } from '@/lib/utils';
+import { outcomePricesAtom } from '@/store/markets';
+import type { EventDetailOutcome } from '@/types/event-detail';
 
 type EventOutcomeRowProps = {
   outcome: EventDetailOutcome;
@@ -23,8 +23,8 @@ export function EventOutcomeRow({
   const price = prices[outcome.id];
   const livePrice = price || outcome.price;
   const previousPrice = useRef(livePrice);
-  const [changeDirection, setChangeDirection] = useState<"up" | "down" | null>(
-    null,
+  const [changeDirection, setChangeDirection] = useState<'up' | 'down' | null>(
+    null
   );
   const [changePercent, setChangePercent] = useState(0);
   const volume = outcome.volume ?? eventVolume;
@@ -35,7 +35,7 @@ export function EventOutcomeRow({
 
     if (Math.abs(delta) < 0.001) return;
 
-    setChangeDirection(delta > 0 ? "up" : "down");
+    setChangeDirection(delta > 0 ? 'up' : 'down');
     setChangePercent(Math.max(1, Math.round(Math.abs(delta) * 100)));
     const timeoutId = window.setTimeout(() => setChangeDirection(null), 900);
 
@@ -45,9 +45,9 @@ export function EventOutcomeRow({
   return (
     <div
       className={cn(
-        "event-outcome-row",
-        changeDirection === "up" && "is-rising",
-        changeDirection === "down" && "is-falling",
+        'event-outcome-row',
+        changeDirection === 'up' && 'is-rising',
+        changeDirection === 'down' && 'is-falling'
       )}
     >
       <div className="min-w-0 flex-1">
@@ -64,14 +64,14 @@ export function EventOutcomeRow({
       <div className="event-outcome-price">
         <p
           className={cn(
-            "event-outcome-change",
-            changeDirection === "up" && "text-yes",
-            changeDirection === "down" && "text-no",
-            !changeDirection && "opacity-0",
+            'event-outcome-change',
+            changeDirection === 'up' && 'text-yes',
+            changeDirection === 'down' && 'text-no',
+            !changeDirection && 'opacity-0'
           )}
           aria-hidden={!changeDirection}
         >
-          {changeDirection === "up" ? "+" : "-"}
+          {changeDirection === 'up' ? '+' : '-'}
           {changePercent}%
         </p>
         <p className="event-outcome-percent">{formatProbability(livePrice)}</p>

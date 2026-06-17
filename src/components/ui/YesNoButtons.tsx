@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { cn, formatCents, formatProbability } from '@/lib/utils';
 
@@ -45,14 +45,18 @@ export function YesNoButtons({
         className={cn(
           tradeBtnBase,
           'bg-yes/15 text-yes hover:bg-yes/25',
-          highlightYes && 'bg-yes/25 hover:bg-yes/35',
+          highlightYes && 'bg-yes/25 hover:bg-yes/35'
         )}
         onClick={stopLinkNavigation}
       >
         Buy Yes {formatCents(price)}
       </button>
     ) : (
-      <button type="button" className="yes-block" onClick={stopLinkNavigation}>
+      <button
+        type="button"
+        className="yes-block"
+        onClick={stopLinkNavigation}
+      >
         {yesLabel}
       </button>
     );
@@ -72,16 +76,17 @@ export function YesNoButtons({
     ) : variant === 'trade' ? (
       <button
         type="button"
-        className={cn(
-          tradeBtnBase,
-          'bg-no/15 text-no hover:bg-no/25',
-        )}
+        className={cn(tradeBtnBase, 'bg-no/15 text-no hover:bg-no/25')}
         onClick={stopLinkNavigation}
       >
         Buy No {formatCents(1 - price)}
       </button>
     ) : (
-      <button type="button" className="no-block" onClick={stopLinkNavigation}>
+      <button
+        type="button"
+        className="no-block"
+        onClick={stopLinkNavigation}
+      >
         {noLabel}
       </button>
     );
@@ -91,7 +96,7 @@ export function YesNoButtons({
       <div className={cn(className)}>
         <div
           className={cn(
-            variant === 'trade' ? 'event-outcome-actions' : 'flex gap-2',
+            variant === 'trade' ? 'event-outcome-actions' : 'flex gap-2'
           )}
         >
           {yesButton}

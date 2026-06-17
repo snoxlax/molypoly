@@ -1,14 +1,14 @@
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import type { CryptoIconName } from "@/types/topic-sidebar";
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import type { CryptoIconName } from '@/types/topic-sidebar';
 
-import BitcoinIcon from "@/assets/icons/crypto/bitcoin.png";
-import BnbIcon from "@/assets/icons/crypto/bnb.png";
-import DogeIcon from "@/assets/icons/crypto/doge.png";
-import EthIcon from "@/assets/icons/crypto/eth.png";
-import MicrostrategyIcon from "@/assets/icons/crypto/mirco.png";
-import SolanaIcon from "@/assets/icons/crypto/solana.png";
-import XrpIcon from "@/assets/icons/crypto/xrp.png";
+import BitcoinIcon from '@/assets/icons/crypto/bitcoin.png';
+import BnbIcon from '@/assets/icons/crypto/bnb.png';
+import DogeIcon from '@/assets/icons/crypto/doge.png';
+import EthIcon from '@/assets/icons/crypto/eth.png';
+import MicrostrategyIcon from '@/assets/icons/crypto/mirco.png';
+import SolanaIcon from '@/assets/icons/crypto/solana.png';
+import XrpIcon from '@/assets/icons/crypto/xrp.png';
 
 const CRYPTO_ICONS = {
   bitcoin: BitcoinIcon,
@@ -34,7 +34,7 @@ export function CryptoIcon({ name, className, size = 18 }: CryptoIconProps) {
       width={size}
       height={size}
       aria-hidden
-      className={cn("shrink-0 rounded-full", className)}
+      className={cn('shrink-0 rounded-full', className)}
     />
   );
 }

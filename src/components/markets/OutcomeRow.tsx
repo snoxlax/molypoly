@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import { YesNoButtons } from '@/components/ui/YesNoButtons';
-import { formatProbability } from "@/lib/utils";
-import type { MarketOutcome } from "@/types/market";
+import { formatProbability } from '@/lib/utils';
+import type { MarketOutcome } from '@/types/market';
 
 type OutcomeRowProps = {
   outcome: MarketOutcome;
@@ -18,7 +18,10 @@ export function OutcomeRow({ outcome }: OutcomeRowProps) {
         <span className="outcome-percent tabular-nums">
           {formatProbability(outcome.price)}
         </span>
-        <YesNoButtons variant="pills" price={outcome.price} />
+        <YesNoButtons
+          variant="pills"
+          price={outcome.price}
+        />
       </div>
     </div>
   );

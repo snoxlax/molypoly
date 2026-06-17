@@ -22,7 +22,7 @@ export function MarketImage({
   const containerClass = cn(
     'relative shrink-0 size-10 overflow-hidden',
     shapeClass,
-    className,
+    className
   );
 
   if (imageUrl) {
@@ -41,6 +41,9 @@ export function MarketImage({
   }
 
   return (
-    <div className={cn(containerClass, 'bg-zinc-700')} aria-hidden />
+    <div
+      className={cn(containerClass, 'bg-zinc-700')}
+      aria-hidden
+    />
   );
 }

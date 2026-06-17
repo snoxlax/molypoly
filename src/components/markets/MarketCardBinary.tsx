@@ -12,7 +12,7 @@ type MarketCardBinaryProps = {
 function pickOutcome(
   outcomes: MarketOutcome[],
   labels: string[],
-  fallbackIndex: number,
+  fallbackIndex: number
 ): MarketOutcome | undefined {
   for (const label of labels) {
     const match = outcomes.find((outcome) => outcome.label === label);
